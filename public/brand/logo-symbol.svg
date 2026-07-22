@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 48" role="img" aria-label="Две Коробки">
+  <defs>
+    <style>
+      .dark{fill:none;stroke:#0e0f12;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+      .red{fill:none;stroke:#e00516;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <g transform="translate(4 4)">
+    <circle class="dark" cx="20" cy="20" r="15"/>
+    <circle class="dark" cx="20" cy="20" r="7"/>
+    <path class="dark" d="M20 1v5M20 34v5M1 20h5M34 20h5M7 7l4 4M29 29l4 4M33 7l-4 4M11 29l-4 4"/>
+    <circle class="red" cx="68" cy="20" r="15"/>
+    <circle class="red" cx="68" cy="20" r="7"/>
+    <path class="red" d="M68 1v5M68 34v5M49 20h5M82 20h5M55 7l4 4M77 29l4 4M81 7l-4 4M59 29l-4 4"/>
+    <path d="M42 40 52 0" stroke="#0e0f12" stroke-width="5"/>
+    <path d="M49 40 59 0" stroke="#e00516" stroke-width="5"/>
+  </g>
+</svg>

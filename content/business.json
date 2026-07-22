@@ -1,0 +1,37 @@
+{
+  "brand": "Две Коробки",
+  "legalName": "Две Коробки",
+  "tagline": "Сервис роботизированных трансмиссий",
+  "specialization": "DSG · S-Tronic · PowerShift · DCT",
+  "phoneDisplay": "+7 (812) 385-06-42",
+  "phoneHref": "+78123850642",
+  "hours": "Ежедневно 9:00 — 21:00",
+  "cities": [
+    "Санкт-Петербург",
+    "Москва"
+  ],
+  "addresses": {
+    "Санкт-Петербург": "Адрес требуется подтвердить",
+    "Москва": "Адрес требуется подтвердить"
+  },
+  "messengers": {
+    "whatsapp": "",
+    "telegram": ""
+  },
+  "warranty": {
+    "works": "до 24 месяцев",
+    "parts": "до 12 месяцев",
+    "confirmed": false
+  },
+  "formEndpoint": "",
+  "analytics": {
+    "yandexMetrikaId": "",
+    "googleAnalyticsId": ""
+  },
+  "siteUrl": "https://nesterovkolya1337-source.github.io/dve-korobki-site",
+  "repository": "nesterovkolya1337-source/dve-korobki-site",
+  "figma": {
+    "fileKey": "I3VjCQVEO11bDEw2Gf4HOd",
+    "fileUrl": "https://www.figma.com/design/I3VjCQVEO11bDEw2Gf4HOd/Untitled"
+  }
+}

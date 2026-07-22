@@ -1,0 +1,316 @@
+{
+  "generatedAt": "2026-07-22T07:42:28.687Z",
+  "routeCount": 22,
+  "siteUrl": "https://nesterovkolya1337-source.github.io/dve-korobki-site",
+  "base": "",
+  "routes": [
+    {
+      "route": "/",
+      "output": "index.html",
+      "title": "Ремонт DSG, S-Tronic, PowerShift и китайских DCT",
+      "type": "home",
+      "priority": "P0",
+      "figma": {
+        "page": "01_HOME_DESKTOP",
+        "desktopFrame": "HOME_DESKTOP_V2",
+        "desktopNode": "40:2",
+        "mobileFrame": "HOME_MOBILE_V2_QA_FIXED_2026_07_05",
+        "mobileNode": "155:2"
+      }
+    },
+    {
+      "route": "/diagnostika-dsg-powershift-dct/",
+      "output": "diagnostika-dsg-powershift-dct/index.html",
+      "title": "Диагностика DSG, PowerShift и DCT",
+      "type": "service",
+      "priority": "P0",
+      "figma": {
+        "page": "42_DIAGNOSTICS",
+        "desktopFrame": "DIAGNOSTICS_DESKTOP_FINAL",
+        "desktopNode": "115:2",
+        "mobileFrame": "DIAGNOSTICS_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:963"
+      }
+    },
+    {
+      "route": "/remont-mehatronika-dsg-dct/",
+      "output": "remont-mehatronika-dsg-dct/index.html",
+      "title": "Ремонт мехатроника DSG, PowerShift и DCT",
+      "type": "service",
+      "priority": "P0",
+      "figma": {
+        "page": "40_MECHATRONIC",
+        "desktopFrame": "MECHATRONIC_DESKTOP_FINAL",
+        "desktopNode": "105:2",
+        "mobileFrame": "MECHATRONIC_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:803"
+      }
+    },
+    {
+      "route": "/remont-dsg-dq200/",
+      "output": "remont-dsg-dq200/index.html",
+      "title": "Ремонт DSG DQ200",
+      "type": "service",
+      "priority": "P0",
+      "figma": {
+        "page": "10_DQ200",
+        "desktopFrame": "DQ200_DESKTOP_FINAL",
+        "desktopNode": "57:2",
+        "mobileFrame": "DQ200_MOBILE_FINAL_QA_FIXED_2026_07_05",
+        "mobileNode": "155:197"
+      }
+    },
+    {
+      "route": "/remont-dsg-dq250/",
+      "output": "remont-dsg-dq250/index.html",
+      "title": "Ремонт DSG DQ250",
+      "type": "service",
+      "priority": "P0",
+      "figma": {
+        "page": "11_DQ250",
+        "desktopFrame": "DQ250_DESKTOP_SAFE_V2",
+        "desktopNode": "63:2",
+        "mobileFrame": "DQ250_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:3"
+      }
+    },
+    {
+      "route": "/remont-powershift-dps6/",
+      "output": "remont-powershift-dps6/index.html",
+      "title": "Ремонт PowerShift DPS6",
+      "type": "service",
+      "priority": "P0",
+      "figma": {
+        "page": "14_DPS6",
+        "desktopFrame": "DPS6_DESKTOP_FINAL",
+        "desktopNode": "65:3",
+        "mobileFrame": "DPS6_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:243"
+      }
+    },
+    {
+      "route": "/kontakty/",
+      "output": "kontakty/index.html",
+      "title": "Контакты «Две Коробки»",
+      "type": "contacts",
+      "priority": "P0",
+      "figma": {
+        "page": "91_CONTACTS",
+        "desktopFrame": "CONTACTS_DESKTOP_FINAL",
+        "desktopNode": "117:2",
+        "mobileFrame": "CONTACTS_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:408"
+      }
+    },
+    {
+      "route": "/remont-powershift-mps6/",
+      "output": "remont-powershift-mps6/index.html",
+      "title": "Ремонт PowerShift MPS6 / 6DCT450",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "15_MPS6",
+        "desktopFrame": "MPS6_DESKTOP_FINAL",
+        "desktopNode": "65:242",
+        "mobileFrame": "MPS6_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:323"
+      }
+    },
+    {
+      "route": "/remont-s-tronic-dl501/",
+      "output": "remont-s-tronic-dl501/index.html",
+      "title": "Ремонт S-Tronic DL501 / 0B5",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "13_DL501",
+        "desktopFrame": "DL501_DESKTOP_SAFE_V2",
+        "desktopNode": "63:478",
+        "mobileFrame": "DL501_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:163"
+      }
+    },
+    {
+      "route": "/remont-dsg-dq500/",
+      "output": "remont-dsg-dq500/index.html",
+      "title": "Ремонт DSG DQ500",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "12_DQ500",
+        "desktopFrame": "DQ500_DESKTOP_SAFE_V2",
+        "desktopNode": "63:240",
+        "mobileFrame": "DQ500_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:83"
+      }
+    },
+    {
+      "route": "/zamena-stsepleniya-dsg-dct/",
+      "output": "zamena-stsepleniya-dsg-dct/index.html",
+      "title": "Замена сцепления DSG и DCT",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "44_CLUTCH_DSG_DESKTOP",
+        "desktopFrame": "CLUTCH_DSG_DESKTOP_FINAL_2026_07_05",
+        "desktopNode": "162:3",
+        "mobileFrame": "CLUTCH_DSG_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:165"
+      }
+    },
+    {
+      "route": "/adaptaciya-dsg-powershift-dct/",
+      "output": "adaptaciya-dsg-powershift-dct/index.html",
+      "title": "Адаптация DSG, PowerShift и DCT",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "43_ADAPTATION_DESKTOP",
+        "desktopFrame": "ADAPTATION_DESKTOP_FINAL_2026_07_05",
+        "desktopNode": "162:77",
+        "mobileFrame": "ADAPTATION_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:84"
+      }
+    },
+    {
+      "route": "/remont-dvuhmassovyh-mahovikov/",
+      "output": "remont-dvuhmassovyh-mahovikov/index.html",
+      "title": "Ремонт и замена двухмассового маховика",
+      "type": "service",
+      "priority": "P1",
+      "figma": {
+        "page": "41_FLYWHEELS",
+        "desktopFrame": "FLYWHEELS_DESKTOP_FINAL",
+        "desktopNode": "111:2",
+        "mobileFrame": "FLYWHEELS_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:883"
+      }
+    },
+    {
+      "route": "/remont-geely-7dct/",
+      "output": "remont-geely-7dct/index.html",
+      "title": "Ремонт Geely 7DCT",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "16_Geely_7DCT",
+        "desktopFrame": "GEELY_7DCT_DESKTOP_FINAL",
+        "desktopNode": "68:3",
+        "mobileFrame": "GEELY_7DCT_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:403"
+      }
+    },
+    {
+      "route": "/remont-chery-getrag-7dct300/",
+      "output": "remont-chery-getrag-7dct300/index.html",
+      "title": "Ремонт Chery Getrag 7DCT300",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "17_Chery_Getrag_7DCT300",
+        "desktopFrame": "CHERY_GETRAG_7DCT300_DESKTOP_FINAL",
+        "desktopNode": "68:242",
+        "mobileFrame": "CHERY_7DCT300_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:483"
+      }
+    },
+    {
+      "route": "/remont-exeed-borgwarner-7dct/",
+      "output": "remont-exeed-borgwarner-7dct/index.html",
+      "title": "Ремонт Exeed BorgWarner 7DCT",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "18_Exeed_BorgWarner_7DCT",
+        "desktopFrame": "EXEED_BORGWARNER_7DCT_DESKTOP_FINAL",
+        "desktopNode": "68:481",
+        "mobileFrame": "EXEED_7DCT_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:563"
+      }
+    },
+    {
+      "route": "/remont-magna-pt-7dct/",
+      "output": "remont-magna-pt-7dct/index.html",
+      "title": "Ремонт Magna PT 7DCT",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "19_Magna_PT_7DCT",
+        "desktopFrame": "MAGNA_PT_7DCT_DESKTOP_FINAL",
+        "desktopNode": "68:720",
+        "mobileFrame": "MAGNA_7DCT_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:643"
+      }
+    },
+    {
+      "route": "/remont-omoda-jaecoo-dct/",
+      "output": "remont-omoda-jaecoo-dct/index.html",
+      "title": "Ремонт DCT Omoda и Jaecoo",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "20_Omoda_Jaecoo",
+        "desktopFrame": "OMODA_JAECOO_DCT_DESKTOP_FINAL",
+        "desktopNode": "68:959",
+        "mobileFrame": "OMODA_JAECOO_MOBILE_V1_2026_07_05",
+        "mobileNode": "150:723"
+      }
+    },
+    {
+      "route": "/remont-hyundai-kia-d7uf1-d7gf1/",
+      "output": "remont-hyundai-kia-d7uf1-d7gf1/index.html",
+      "title": "Ремонт Hyundai/Kia D7UF1 и D7GF1",
+      "type": "service",
+      "priority": "P2",
+      "figma": {
+        "page": "21_Hyundai_Kia_D7UF1_D7GF1",
+        "desktopFrame": "HYUNDAI_KIA_DCT_DESKTOP_FINAL",
+        "desktopNode": "68:1198",
+        "mobileFrame": "HYUNDAI_KIA_D7UF1_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:3"
+      }
+    },
+    {
+      "route": "/uslugi/",
+      "output": "uslugi/index.html",
+      "title": "Услуги сервиса «Две Коробки»",
+      "type": "services",
+      "priority": "P2",
+      "figma": {
+        "page": "48_SERVICES_INDEX_DESKTOP",
+        "desktopFrame": "SERVICES_INDEX_DESKTOP_FINAL_2026_07_05",
+        "desktopNode": "162:225",
+        "mobileFrame": "SERVICES_INDEX_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:489"
+      }
+    },
+    {
+      "route": "/ceny/",
+      "output": "ceny/index.html",
+      "title": "Цены на диагностику и ремонт",
+      "type": "prices",
+      "priority": "P2",
+      "figma": {
+        "page": "45_PRICES_DESKTOP",
+        "desktopFrame": "PRICES_DESKTOP_FINAL_2026_07_05",
+        "desktopNode": "162:151",
+        "mobileFrame": "PRICES_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:246"
+      }
+    },
+    {
+      "route": "/o-nas/",
+      "output": "o-nas/index.html",
+      "title": "О сервисе «Две Коробки»",
+      "type": "about",
+      "priority": "P2",
+      "figma": {
+        "page": "90_ABOUT",
+        "desktopFrame": "ABOUT_DESKTOP_FINAL",
+        "desktopNode": "116:2",
+        "mobileFrame": "ABOUT_MOBILE_V1_2026_07_05",
+        "mobileNode": "152:327"
+      }
+    }
+  ]
+}

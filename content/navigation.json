@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Услуги",
+    "route": "/uslugi/"
+  },
+  {
+    "label": "Коробки",
+    "route": "/remont-dsg-dq200/"
+  },
+  {
+    "label": "Маховики",
+    "route": "/remont-dvuhmassovyh-mahovikov/"
+  },
+  {
+    "label": "Цены",
+    "route": "/ceny/"
+  },
+  {
+    "label": "О нас",
+    "route": "/o-nas/"
+  },
+  {
+    "label": "Контакты",
+    "route": "/kontakty/"
+  }
+]

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 74" role="img" aria-label="Две Коробки">
+  <g transform="translate(4 11) scale(.68)">
+    <circle fill="none" stroke="#0e0f12" stroke-width="5" cx="28" cy="28" r="20"/>
+    <circle fill="none" stroke="#0e0f12" stroke-width="5" cx="28" cy="28" r="8"/>
+    <path fill="none" stroke="#0e0f12" stroke-width="5" stroke-linecap="round" d="M28 2v7M28 47v7M2 28h7M47 28h7M10 10l5 5M41 41l5 5M46 10l-5 5M15 41l-5 5"/>
+    <circle fill="none" stroke="#e00516" stroke-width="5" cx="88" cy="28" r="20"/>
+    <circle fill="none" stroke="#e00516" stroke-width="5" cx="88" cy="28" r="8"/>
+    <path fill="none" stroke="#e00516" stroke-width="5" stroke-linecap="round" d="M88 2v7M88 47v7M62 28h7M107 28h7M70 10l5 5M101 41l5 5M106 10l-5 5M75 41l-5 5"/>
+  </g>
+  <text x="102" y="34" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="900" fill="#0e0f12">ДВЕ</text>
+  <text x="172" y="34" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="900" fill="#e00516">КОРОБКИ</text>
+  <text x="103" y="56" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#6b707a" letter-spacing="1.2">СЕРВИС РОБОТОВ И DCT</text>
+</svg>
