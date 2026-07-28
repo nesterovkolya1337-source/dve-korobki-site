@@ -11,9 +11,13 @@ function sectionTitle(title, kicker = '') {
   </div>`;
 }
 
-function logo(ctx, variant = 'compact') {
-  const src = variant === 'symbol' ? '/brand/logo-symbol.svg' : '/brand/logo-compact.svg';
-  return `<img class="brand-logo brand-logo--${variant}" src="${ctx.asset(src)}" alt="Две Коробки">`;
+function logo(ctx, variant = 'compact', tone = 'default') {
+  const src = variant === 'symbol'
+    ? '/brand/logo-symbol.svg'
+    : tone === 'inverse'
+      ? '/brand/logo-detailed-compact-dark.webp'
+      : '/brand/logo-detailed-compact.webp';
+  return `<img class="brand-logo brand-logo--${variant}" src="${ctx.asset(src)}" alt="Две Коробки — сервис DSG и DCT" width="1072" height="126">`;
 }
 
 function header(ctx, currentRoute) {
@@ -30,8 +34,12 @@ function header(ctx, currentRoute) {
         <span>${esc(ctx.business.hours)}</span>
       </div>
       <a class="button button--primary header-cta" href="#lead-form">Записаться</a>
-      <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" data-menu-toggle>${icon('menu')}</button>
+      <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" data-menu-toggle>
+        <span class="menu-icon menu-icon--open">${icon('menu')}</span>
+        <span class="menu-icon menu-icon--close">${icon('close')}</span>
+      </button>
     </div>
+    <div class="mobile-menu-backdrop" data-mobile-menu-backdrop hidden></div>
     <div class="mobile-menu" data-mobile-menu hidden>
       <nav class="container mobile-nav" aria-label="Мобильная навигация">${nav}
         <a class="button button--primary" href="tel:${esc(ctx.business.phoneHref)}">Позвонить</a>
@@ -57,7 +65,7 @@ function footer(ctx) {
   return `<footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <a href="${ctx.link('/')}">${logo(ctx)}</a>
+        <a href="${ctx.link('/')}">${logo(ctx, 'compact', 'inverse')}</a>
         <p>${esc(ctx.business.tagline)}</p>
         <p class="footer-specialization">${esc(ctx.business.specialization)}</p>
       </div>
@@ -84,7 +92,24 @@ function breadcrumbs(page, ctx) {
   </nav>`;
 }
 
+function homeBrandMedia(ctx) {
+  return `<figure class="hero-media hero-media--brand">
+    <div class="brand-hero__identity">
+      <img src="${ctx.asset('/brand/hero-brand-emblem.webp')}" alt="Две коробки — Санкт-Петербург и Москва" width="1108" height="366">
+    </div>
+    <div class="brand-hero__photo">
+      <img src="${ctx.asset('/images/hero-home.webp')}" alt="Роботизированная коробка передач на рабочем столе" width="960" height="640">
+      <span class="brand-hero__photo-label">DSG · DCT · PowerShift</span>
+    </div>
+    <figcaption class="brand-hero__cities">
+      <span>${icon('pin')} Санкт-Петербург</span>
+      <span>${icon('pin')} Москва</span>
+    </figcaption>
+  </figure>`;
+}
+
 function media(page, ctx) {
+  if (page.route === '/') return homeBrandMedia(ctx);
   if (page.image) {
     return `<figure class="hero-media">
       <img src="${ctx.asset(page.image)}" alt="${esc(page.shortTitle)}" width="960" height="640">

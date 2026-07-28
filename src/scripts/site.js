@@ -1,19 +1,37 @@
 (() => {
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-mobile-menu]');
+  const backdrop = document.querySelector('[data-mobile-menu-backdrop]');
+
+  const setMenu = (open) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    menu.hidden = !open;
+    if (backdrop) backdrop.hidden = !open;
+    document.body.classList.toggle('is-menu-open', open);
+  };
 
   if (toggle && menu) {
     toggle.addEventListener('click', () => {
-      const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      menu.hidden = expanded;
+      setMenu(toggle.getAttribute('aria-expanded') !== 'true');
     });
 
     menu.addEventListener('click', (event) => {
-      if (event.target.closest('a')) {
-        menu.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
+      if (event.target.closest('a')) setMenu(false);
+    });
+
+    backdrop?.addEventListener('click', () => setMenu(false));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setMenu(false);
+        toggle.focus();
       }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1024) setMenu(false);
     });
   }
 
