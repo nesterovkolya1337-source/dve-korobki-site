@@ -13,7 +13,9 @@ export function icon(name, className = 'icon') {
     arrow: '<path d="M5 12h14m-5-5 5 5-5 5"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     close: '<path d="m6 6 12 12M18 6 6 18"/>',
-    ruble: '<path d="M7 19V5h6a4 4 0 0 1 0 8H7m0 3h8m-8-6h7"/>'
+    ruble: '<path d="M7 19V5h6a4 4 0 0 1 0 8H7m0 3h8m-8-6h7"/>',
+    award: '<circle cx="12" cy="9" r="5"/><path d="m9 14-1 7 4-2 4 2-1-7"/><circle cx="12" cy="9" r="2"/>',
+    target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>'
   };
   const body = paths[name] || paths.gear;
   return `<svg class="${className}" ${common} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;

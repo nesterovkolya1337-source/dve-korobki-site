@@ -12,12 +12,14 @@ function sectionTitle(title, kicker = '') {
 }
 
 function logo(ctx, variant = 'compact', tone = 'default') {
+  const isInverse = tone === 'inverse';
   const src = variant === 'symbol'
     ? '/brand/logo-symbol.svg'
-    : tone === 'inverse'
+    : isInverse
       ? '/brand/logo-detailed-compact-dark.webp'
-      : '/brand/logo-detailed-compact.webp';
-  return `<img class="brand-logo brand-logo--${variant}" src="${ctx.asset(src)}" alt="Две Коробки — сервис DSG и DCT" width="1072" height="126">`;
+      : '/brand/logo-compact.svg';
+  const dimensions = isInverse ? 'width="1072" height="126"' : 'width="430" height="74"';
+  return `<img class="brand-logo brand-logo--${variant}" src="${ctx.asset(src)}" alt="Две Коробки — сервис DSG и DCT" ${dimensions}>`;
 }
 
 function header(ctx, currentRoute) {
@@ -93,17 +95,15 @@ function breadcrumbs(page, ctx) {
 }
 
 function homeBrandMedia(ctx) {
-  return `<figure class="hero-media hero-media--brand">
-    <div class="brand-hero__identity">
-      <img src="${ctx.asset('/brand/hero-brand-emblem.webp')}" alt="Две коробки — Санкт-Петербург и Москва" width="1108" height="366">
+  return `<figure class="hero-media hero-media--brand" aria-label="Логотип сервиса Две Коробки">
+    <img class="brand-hero__emblem" src="${ctx.asset('/brand/hero-brand-emblem.webp')}" alt="Две коробки между силуэтами Санкт-Петербурга и Москвы" width="1108" height="366">
+    <div class="brand-hero__wordmark" aria-hidden="true">
+      <span>ДВЕ</span><strong>КОРОБКИ</strong>
     </div>
-    <div class="brand-hero__photo">
-      <img src="${ctx.asset('/images/hero-home.webp')}" alt="Роботизированная коробка передач на рабочем столе" width="960" height="640">
-      <span class="brand-hero__photo-label">DSG · DCT · PowerShift</span>
-    </div>
+    <div class="brand-hero__tagline"><span>РЕМОНТ</span><strong>DSG</strong><span>/ АКПП</span></div>
     <figcaption class="brand-hero__cities">
-      <span>${icon('pin')} Санкт-Петербург</span>
-      <span>${icon('pin')} Москва</span>
+      <span>ПИТЕР</span>
+      <span>МОСКВА</span>
     </figcaption>
   </figure>`;
 }
@@ -123,14 +123,19 @@ function media(page, ctx) {
   </div>`;
 }
 
+function heroHeading(page) {
+  if (page.route !== '/') return esc(page.title);
+  return `РЕМОНТ DSG,<br>S-TRONIC,<br>POWERSHIFT И<br><span class="hero-title-accent">КИТАЙСКИХ DCT</span>`;
+}
+
 function hero(page, ctx) {
-  return `<section class="hero">
+  return `<section class="hero${page.route === '/' ? ' hero--home' : ''}">
     <div class="container">
       ${breadcrumbs(page, ctx)}
       <div class="hero-grid">
         <div class="hero-copy">
           ${page.eyebrow ? `<p class="eyebrow">${esc(page.eyebrow)}</p>` : ''}
-          <h1>${esc(page.title)}</h1>
+          <h1>${heroHeading(page)}</h1>
           <p class="hero-lead">${esc(page.lead || page.description)}</p>
           <div class="button-row">
             <a class="button button--primary" href="#lead-form">Записаться на диагностику</a>
@@ -143,11 +148,13 @@ function hero(page, ctx) {
   </section>`;
 }
 
-function benefits(items = []) {
+function benefits(items = [], variant = 'default') {
   if (!items.length) return '';
-  const icons = ['shield', 'diagnostic', 'clock', 'ruble'];
+  const icons = variant === 'home'
+    ? ['shield', 'award', 'target', 'wrench']
+    : ['shield', 'diagnostic', 'clock', 'ruble'];
   return `<section class="benefit-section">
-    <div class="container"><div class="benefit-strip">
+    <div class="container"><div class="benefit-strip${variant === 'home' ? ' benefit-strip--home' : ''}">
       ${items.map((item, index) => `<div class="benefit-item">
         <span class="icon-badge">${icon(icons[index % icons.length])}</span>
         <div><strong>${esc(item.title)}</strong><span>${esc(item.text)}</span></div>
@@ -302,7 +309,7 @@ function popularPages(ctx) {
 function renderHome(page, ctx) {
   return [
     hero(page, ctx),
-    benefits(page.benefits),
+    benefits(page.benefits, 'home'),
     homeCategories(page, ctx),
     renderServiceCards(page.services, ctx, 'Наши услуги'),
     symptoms(page.symptoms),
@@ -446,7 +453,7 @@ export function renderDocument(page, ctx) {
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(page.description)}">
   ${canonical ? `<link rel="canonical" href="${esc(canonical)}"><meta property="og:url" content="${esc(canonical)}">` : ''}
-  <meta property="og:image" content="${esc(ctx.absoluteAsset('/images/hero-home.webp'))}">
+  <meta property="og:image" content="${esc(ctx.absoluteAsset('/brand/hero-brand-emblem.webp'))}">
   <link rel="icon" href="${ctx.asset('/brand/favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="${ctx.asset('/styles/main.css')}">
   ${schema(page, ctx)}

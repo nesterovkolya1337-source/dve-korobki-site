@@ -17,7 +17,7 @@ for (const item of manifest.routes) {
     ['viewport', html.includes('name="viewport"')],
     ['title', /<title>[^<]+<\/title>/.test(html)],
     ['description', html.includes('name="description"')],
-    ['h1', /<h1>[^<]+<\/h1>/.test(html)],
+    ['h1', /<h1\b[^>]*>[\s\S]*?<\/h1>/.test(html)],
     ['canonical', html.includes('rel="canonical"')],
     ['schema', html.includes('application/ld+json')],
     ['header', html.includes('site-header')],
