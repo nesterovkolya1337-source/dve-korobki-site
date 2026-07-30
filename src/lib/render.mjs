@@ -471,7 +471,7 @@ export function renderDocument(page, ctx) {
   ${canonical ? `<link rel="canonical" href="${esc(canonical)}"><meta property="og:url" content="${esc(canonical)}">` : ''}
   <meta property="og:image" content="${esc(ctx.absoluteAsset('/brand/hero-brand-emblem.webp'))}">
   <link rel="icon" href="${ctx.asset('/brand/favicon.svg')}" type="image/svg+xml">
-  <link rel="stylesheet" href="${ctx.asset('/styles/main.css')}">
+  <link rel="stylesheet" href="${ctx.versionedAsset('/styles/main.css')}">
   ${schema(page, ctx)}
 </head>
 <body data-route="${esc(page.route)}">
@@ -480,7 +480,7 @@ export function renderDocument(page, ctx) {
   <main id="main">${body}</main>
   ${footer(ctx)}
   <div class="toast" data-toast hidden></div>
-  <script src="${ctx.asset('/scripts/site.js')}" defer></script>
+  <script src="${ctx.versionedAsset('/scripts/site.js')}" defer></script>
 </body>
 </html>`;
 }

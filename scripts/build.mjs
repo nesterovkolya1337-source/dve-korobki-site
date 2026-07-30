@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { renderDocument } from '../src/lib/render.mjs';
 import { routeToOutput, normalizeBase, joinUrl } from '../src/lib/html.mjs';
 
@@ -20,6 +21,11 @@ const [businessFile, pages, navigation] = await Promise.all([
 
 const base = normalizeBase(process.env.BASE_PATH || '');
 const siteUrl = (process.env.SITE_URL || businessFile.siteUrl || '').replace(/\/+$/, '');
+const [mainCss, siteJs] = await Promise.all([
+  readFile(join(root, 'src/styles/main.css')),
+  readFile(join(root, 'src/scripts/site.js'))
+]);
+const assetRevision = createHash('sha256').update(mainCss).update(siteJs).digest('hex').slice(0, 10);
 const business = {
   ...businessFile,
   formEndpoint: process.env.FORM_ENDPOINT || businessFile.formEndpoint || ''
@@ -32,8 +38,9 @@ const asset = (path) => {
 };
 const link = (route) => joinUrl(base, route);
 const absoluteAsset = (path) => `${siteUrl}/${String(path).replace(/^\/+/, '')}`;
+const versionedAsset = (path) => `${asset(path)}?v=${assetRevision}`;
 
-const ctx = { business, pages, navigation, base, siteUrl, asset, link, absoluteAsset };
+const ctx = { business, pages, navigation, base, siteUrl, asset, versionedAsset, link, absoluteAsset };
 
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
@@ -61,7 +68,7 @@ for (const page of pages) {
 }
 
 const notFound = `<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Страница не найдена — Две Коробки</title><link rel="stylesheet" href="${asset('/styles/main.css')}">
+<title>Страница не найдена — Две Коробки</title><link rel="stylesheet" href="${versionedAsset('/styles/main.css')}">
 <body><main class="hero"><div class="container"><p class="eyebrow">404</p><h1>Страница не найдена</h1>
 <p class="hero-lead">Проверьте адрес или вернитесь на главную.</p><a class="button button--primary" href="${link('/')}">На главную</a></div></main></body></html>`;
 await writeFile(join(dist, '404.html'), notFound, 'utf8');
