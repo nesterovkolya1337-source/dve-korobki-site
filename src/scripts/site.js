@@ -46,37 +46,61 @@
 
   document.querySelectorAll('[data-lead-form]').forEach((form) => {
     form.addEventListener('submit', async (event) => {
+      event.preventDefault();
       const endpoint = form.getAttribute('action')?.trim();
       const status = form.querySelector('[data-form-status]');
+      const button = form.querySelector('button[type="submit"]');
+      const source = form.querySelector('[data-form-source]');
+      const buttonLabel = button?.textContent;
+
+      const setStatus = (message, state = '') => {
+        if (!status) return;
+        status.textContent = message;
+        if (state) status.dataset.state = state;
+        else delete status.dataset.state;
+      };
 
       if (!endpoint) {
-        event.preventDefault();
         const message = 'Preview: форма собрана, но endpoint ещё не подключён.';
-        if (status) status.textContent = message;
+        setStatus(message, 'error');
         showToast(message);
         return;
       }
 
-      event.preventDefault();
-      const button = form.querySelector('button[type="submit"]');
+      if (source) source.value = window.location.href;
       if (button) button.disabled = true;
-      if (status) status.textContent = 'Отправляем…';
+      if (button) button.textContent = 'Отправляем…';
+      form.setAttribute('aria-busy', 'true');
+      setStatus('Отправляем заявку…', 'pending');
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
 
       try {
         const response = await fetch(endpoint, {
           method: form.method || 'POST',
           body: new FormData(form),
-          headers: { Accept: 'application/json' }
+          headers: { Accept: 'application/json' },
+          signal: controller.signal
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json().catch(() => null);
+        if (!response.ok || payload?.success === false) {
+          throw new Error(payload?.message || `HTTP ${response.status}`);
+        }
         form.reset();
-        if (status) status.textContent = 'Заявка отправлена.';
-        showToast('Заявка отправлена.');
+        setStatus('Заявка отправлена. Скоро мы вам перезвоним.', 'success');
+        showToast('Заявка отправлена. Скоро мы вам перезвоним.');
       } catch (error) {
-        if (status) status.textContent = 'Не удалось отправить. Позвоните нам.';
+        const message = error.name === 'AbortError'
+          ? 'Отправка заняла слишком много времени. Позвоните нам.'
+          : 'Не удалось отправить заявку. Позвоните нам.';
+        setStatus(message, 'error');
         showToast('Ошибка отправки. Позвоните по номеру в шапке.');
       } finally {
+        clearTimeout(timeout);
+        form.removeAttribute('aria-busy');
         if (button) button.disabled = false;
+        if (button && buttonLabel) button.textContent = buttonLabel;
       }
     });
   });

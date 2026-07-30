@@ -251,15 +251,31 @@ function faq(items = []) {
   </section>`;
 }
 
+function formMeta() {
+  return `<input type="hidden" name="_subject" value="Новая заявка — Две Коробки">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_url" value="" data-form-source>
+    <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">`;
+}
+
+function formConsent() {
+  return `<label class="form-consent">
+    <input name="Согласие" type="checkbox" value="Да" required>
+    <span>Согласен на обработку имени и телефона для обратной связи</span>
+  </label>`;
+}
+
 function cta(ctx, title = 'Записаться на диагностику') {
   return `<section class="section section--cta" id="lead-form">
     <div class="container">
       <div class="lead-panel">
         <div><h2>${esc(title)}</h2><p>Опишите симптомы — перезвоним и подскажем первый шаг.</p></div>
         <form class="lead-form" data-lead-form action="${esc(ctx.business.formEndpoint || '')}" method="post">
+          ${formMeta()}
           <label><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Ваше имя"></label>
-          <label><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" required placeholder="+7 ___ ___-__-__"></label>
+          <label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" minlength="7" required placeholder="+7 ___ ___-__-__"></label>
           <button class="button button--primary" type="submit">Отправить заявку</button>
+          ${formConsent()}
           <p class="form-status" role="status" data-form-status></p>
         </form>
       </div>
@@ -357,9 +373,11 @@ function renderContacts(page, ctx) {
 
 function ctaForm(ctx) {
   return `<form class="stack-form" data-lead-form action="${esc(ctx.business.formEndpoint || '')}" method="post">
+    ${formMeta()}
     <input name="name" placeholder="Ваше имя" autocomplete="name">
-    <input name="phone" placeholder="Телефон" type="tel" autocomplete="tel" required>
+    <input name="phone" placeholder="Телефон" type="tel" inputmode="tel" autocomplete="tel" minlength="7" required>
     <button class="button button--primary" type="submit">Отправить заявку</button>
+    ${formConsent()}
     <p class="form-status" role="status" data-form-status></p>
   </form>`;
 }

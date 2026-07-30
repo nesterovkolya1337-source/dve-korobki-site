@@ -249,6 +249,23 @@ h1 {
 }
 .lead-form input:focus, .stack-form input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(224, 5, 22, .12); }
 .form-status { grid-column: 1 / -1; min-height: 18px; margin: 0; font-size: 12px; color: #fff; }
+.form-status[data-state="success"] { color: #9ce7b5; }
+.form-status[data-state="error"] { color: #ffb8bf; }
+.form-consent {
+  grid-column: 1 / -1; display: flex !important; align-items: flex-start; gap: 9px;
+  color: #c8cbd0; font-size: 12px; line-height: 1.35;
+}
+.lead-form label.form-consent span {
+  position: static; clip: auto; width: auto; height: auto; overflow: visible;
+}
+.lead-form .form-consent input, .stack-form .form-consent input {
+  flex: 0 0 auto; width: 18px; height: 18px; min-height: 18px; margin: 0; padding: 0;
+  accent-color: var(--red);
+}
+.form-honeypot {
+  display: none !important;
+}
+.lead-form button:disabled, .stack-form button:disabled { cursor: wait; opacity: .68; transform: none; }
 .seo-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; }
 .seo-card p { max-width: 1100px; color: #33363d; line-height: 1.7; }
 
@@ -262,6 +279,9 @@ h1 {
 
 .quick-form-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; }
 .stack-form { display: grid; gap: 14px; }
+.quick-form-card .form-consent, .quick-form-card .form-status { color: var(--muted); }
+.quick-form-card .form-status[data-state="success"] { color: #167a43; }
+.quick-form-card .form-status[data-state="error"] { color: var(--red); }
 .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .contact-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: grid; gap: 10px; }
 .contact-card > svg { color: var(--red); width: 28px; height: 28px; }

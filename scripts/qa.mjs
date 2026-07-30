@@ -21,7 +21,12 @@ for (const item of manifest.routes) {
     ['canonical', html.includes('rel="canonical"')],
     ['schema', html.includes('application/ld+json')],
     ['header', html.includes('site-header')],
-    ['footer', html.includes('site-footer')]
+    ['footer', html.includes('site-footer')],
+    ['lead form', html.includes('data-lead-form')],
+    ['form endpoint', html.includes('https://formsubmit.co/ajax/')],
+    ['form source', html.includes('data-form-source')],
+    ['form honeypot', html.includes('name="_honey"')],
+    ['form consent', /name="Согласие"[^>]*required/.test(html)]
   ];
   for (const [name, ok] of checks) {
     if (!ok) errors.push(`${item.route}: missing ${name}`);
