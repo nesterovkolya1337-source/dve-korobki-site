@@ -2,6 +2,7 @@
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-mobile-menu]');
   const backdrop = document.querySelector('[data-mobile-menu-backdrop]');
+  const mobileNavGroups = [...document.querySelectorAll('[data-mobile-nav-group]')];
 
   const setMenu = (open) => {
     if (!toggle || !menu) return;
@@ -10,6 +11,7 @@
     menu.hidden = !open;
     if (backdrop) backdrop.hidden = !open;
     document.body.classList.toggle('is-menu-open', open);
+    if (!open) mobileNavGroups.forEach(group => { group.open = false; });
   };
 
   if (toggle && menu) {
@@ -22,6 +24,15 @@
     });
 
     backdrop?.addEventListener('click', () => setMenu(false));
+
+    mobileNavGroups.forEach(group => {
+      group.addEventListener('toggle', () => {
+        if (!group.open) return;
+        mobileNavGroups.forEach(other => {
+          if (other !== group) other.open = false;
+        });
+      });
+    });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {

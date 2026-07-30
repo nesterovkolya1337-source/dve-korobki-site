@@ -22,15 +22,111 @@ function logo(ctx, variant = 'compact', tone = 'default') {
   return `<img class="brand-logo brand-logo--${variant}" src="${ctx.asset(src)}" alt="Две Коробки — сервис DSG и DCT" ${dimensions}>`;
 }
 
+const headerDropdowns = {
+  'Услуги': {
+    key: 'services',
+    title: 'Услуги сервиса',
+    description: 'Диагностика и ключевые виды работ',
+    groups: [{
+      items: [
+        { label: 'Все услуги', note: 'Полный список направлений', route: '/uslugi/' },
+        { label: 'Диагностика', note: 'Ошибки, параметры и тестовая поездка', route: '/diagnostika-dsg-powershift-dct/' },
+        { label: 'Ремонт мехатроника', note: 'Плата, гидроблок и соленоиды', route: '/remont-mehatronika-dsg-dct/' },
+        { label: 'Замена сцепления', note: 'Сухие и мокрые комплекты', route: '/zamena-stsepleniya-dsg-dct/' },
+        { label: 'Адаптация', note: 'Базовые установки и обучение', route: '/adaptaciya-dsg-powershift-dct/' }
+      ]
+    }]
+  },
+  'Коробки': {
+    key: 'gearboxes',
+    title: 'Коробки передач',
+    description: 'Выберите семейство или конкретную модель',
+    groups: [
+      {
+        title: 'DSG / S-Tronic',
+        items: [
+          { label: 'DSG DQ200', route: '/remont-dsg-dq200/' },
+          { label: 'DSG DQ250', route: '/remont-dsg-dq250/' },
+          { label: 'DSG DQ500', route: '/remont-dsg-dq500/' },
+          { label: 'S-Tronic DL501', route: '/remont-s-tronic-dl501/' }
+        ]
+      },
+      {
+        title: 'PowerShift',
+        items: [
+          { label: 'DPS6', route: '/remont-powershift-dps6/' },
+          { label: 'MPS6 / 6DCT450', route: '/remont-powershift-mps6/' }
+        ]
+      },
+      {
+        title: 'Китайские DCT',
+        items: [
+          { label: 'Geely 7DCT', route: '/remont-geely-7dct/' },
+          { label: 'Chery 7DCT300', route: '/remont-chery-getrag-7dct300/' },
+          { label: 'Exeed 7DCT', route: '/remont-exeed-borgwarner-7dct/' },
+          { label: 'Magna PT 7DCT', route: '/remont-magna-pt-7dct/' },
+          { label: 'Omoda / Jaecoo', route: '/remont-omoda-jaecoo-dct/' },
+          { label: 'Hyundai / Kia', route: '/remont-hyundai-kia-d7uf1-d7gf1/' }
+        ]
+      }
+    ]
+  },
+  'Маховики': {
+    key: 'flywheels',
+    title: 'Маховики и сцепление',
+    description: 'Проверка связанных узлов трансмиссии',
+    groups: [{
+      items: [
+        { label: 'Двухмассовые маховики', note: 'Проверка, ремонт и замена', route: '/remont-dvuhmassovyh-mahovikov/' },
+        { label: 'Замена сцепления', note: 'Диагностика комплекта и установка', route: '/zamena-stsepleniya-dsg-dct/' },
+        { label: 'Диагностика коробки', note: 'Поиск источника шума и вибраций', route: '/diagnostika-dsg-powershift-dct/' }
+      ]
+    }]
+  }
+};
+
 function header(ctx, currentRoute) {
-  const nav = ctx.navigation.map(item => {
-    const active = currentRoute === item.route || (item.route !== '/' && currentRoute.startsWith(item.route));
-    return `<a class="nav-link${active ? ' is-active' : ''}" href="${ctx.link(item.route)}">${esc(item.label)}</a>`;
+  const isCurrent = route => currentRoute === route;
+  const menuIsActive = menu => menu.groups.some(group => group.items.some(item => isCurrent(item.route)));
+  const dropdownGroups = (menu, mobile = false) => menu.groups.map(group => `<div class="${mobile ? 'mobile-nav-submenu__group' : 'nav-dropdown__group'}">
+    ${group.title ? `<strong class="${mobile ? 'mobile-nav-submenu__title' : 'nav-dropdown__group-title'}">${esc(group.title)}</strong>` : ''}
+    <div class="${mobile ? 'mobile-nav-submenu__links' : 'nav-dropdown__links'}">
+      ${group.items.map(item => `<a class="${mobile ? 'mobile-nav-submenu__link' : 'nav-dropdown__link'}${isCurrent(item.route) ? ' is-active' : ''}" href="${ctx.link(item.route)}"${isCurrent(item.route) ? ' aria-current="page"' : ''}>
+        <strong>${esc(item.label)}</strong>${item.note ? `<small>${esc(item.note)}</small>` : ''}
+      </a>`).join('')}
+    </div>
+  </div>`).join('');
+  const desktopNav = ctx.navigation.map(item => {
+    const menu = headerDropdowns[item.label];
+    const active = menu ? menuIsActive(menu) : isCurrent(item.route);
+    if (!menu) {
+      return `<a class="nav-link${active ? ' is-active' : ''}" href="${ctx.link(item.route)}"${active ? ' aria-current="page"' : ''}>${esc(item.label)}</a>`;
+    }
+    return `<div class="nav-item nav-item--has-menu nav-item--${menu.key}">
+      <a class="nav-link${active ? ' is-active' : ''}" href="${ctx.link(item.route)}" aria-haspopup="true"${isCurrent(item.route) ? ' aria-current="page"' : ''}>
+        ${esc(item.label)}<span class="nav-caret" aria-hidden="true">${icon('arrow')}</span>
+      </a>
+      <div class="nav-dropdown nav-dropdown--${menu.key}" aria-label="${esc(menu.title)}">
+        <div class="nav-dropdown__head"><strong>${esc(menu.title)}</strong><span>${esc(menu.description)}</span></div>
+        <div class="nav-dropdown__groups">${dropdownGroups(menu)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  const mobileNav = ctx.navigation.map(item => {
+    const menu = headerDropdowns[item.label];
+    const active = menu ? menuIsActive(menu) : isCurrent(item.route);
+    if (!menu) {
+      return `<a class="nav-link${active ? ' is-active' : ''}" href="${ctx.link(item.route)}"${active ? ' aria-current="page"' : ''}>${esc(item.label)}</a>`;
+    }
+    return `<details class="mobile-nav-group${active ? ' is-active' : ''}" data-mobile-nav-group>
+      <summary>${esc(item.label)}<span class="nav-caret" aria-hidden="true">${icon('arrow')}</span></summary>
+      <div class="mobile-nav-submenu">${dropdownGroups(menu, true)}</div>
+    </details>`;
   }).join('');
   return `<header class="site-header">
     <div class="container header-inner">
       <a class="brand-link" href="${ctx.link('/')}" aria-label="Две Коробки — на главную">${logo(ctx)}</a>
-      <nav class="desktop-nav" aria-label="Основная навигация">${nav}</nav>
+      <nav class="desktop-nav" aria-label="Основная навигация">${desktopNav}</nav>
       <div class="header-contact">
         <a class="header-phone" href="tel:${esc(ctx.business.phoneHref)}">${esc(ctx.business.phoneDisplay)}</a>
         <span>${esc(ctx.business.hours)}</span>
@@ -43,7 +139,7 @@ function header(ctx, currentRoute) {
     </div>
     <div class="mobile-menu-backdrop" data-mobile-menu-backdrop hidden></div>
     <div class="mobile-menu" data-mobile-menu hidden>
-      <nav class="container mobile-nav" aria-label="Мобильная навигация">${nav}
+      <nav class="container mobile-nav" aria-label="Мобильная навигация">${mobileNav}
         <a class="button button--primary" href="tel:${esc(ctx.business.phoneHref)}">Позвонить</a>
       </nav>
     </div>
