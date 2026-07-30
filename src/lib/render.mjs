@@ -425,14 +425,81 @@ function seoText(page) {
   </section>`;
 }
 
+function categoryMeta(item = {}, index = 0) {
+  const source = `${item.title || ''} ${item.text || ''}`.toLocaleLowerCase('ru');
+
+  if (/dsg|s-tronic/.test(source)) {
+    return {
+      key: 'dsg',
+      code: 'VAG',
+      icon: 'clutch',
+      description: 'Роботизированные коробки концерна Volkswagen Group.',
+      chips: ['DQ200', 'DQ250', 'DQ500', 'DL501'],
+      link: 'Смотреть модели'
+    };
+  }
+  if (/powershift/.test(source)) {
+    return {
+      key: 'powershift',
+      code: 'FORD / VOLVO',
+      icon: 'transmission',
+      description: 'Сухие и мокрые роботизированные коробки PowerShift.',
+      chips: ['DPS6', 'MPS6', '6DCT450'],
+      link: 'Смотреть модели'
+    };
+  }
+  if (/китай|geely|chery|exeed|omoda|jaecoo/.test(source)) {
+    return {
+      key: 'china',
+      code: 'CHINA DCT',
+      icon: 'mechatronic',
+      description: 'Роботизированные DCT современных китайских марок.',
+      chips: ['Geely', 'Chery', 'Exeed', 'Omoda', 'Jaecoo'],
+      link: 'Смотреть марки'
+    };
+  }
+  if (/маховик/.test(source)) {
+    return {
+      key: 'flywheel',
+      code: 'DMF',
+      icon: 'flywheel',
+      description: 'Проверка, ремонт и замена двухмассовых маховиков.',
+      chips: ['Диагностика', 'Замена'],
+      link: 'Подробнее'
+    };
+  }
+
+  return {
+    key: `category-${index + 1}`,
+    code: 'DCT',
+    icon: 'transmission',
+    description: item.text || 'Диагностика и ремонт роботизированных коробок.',
+    chips: [],
+    link: 'Подробнее'
+  };
+}
+
 function homeCategories(page, ctx) {
   return `<section class="section">
     <div class="container">
       ${sectionTitle('Виды коробок, которые мы ремонтируем')}
       <div class="card-grid card-grid--4">
-        ${page.categories.map(item => `<a class="category-card" href="${ctx.link(item.route)}">
-          <h3>${esc(item.title)}</h3><p>${esc(item.text)}</p><span>${icon('arrow','inline-icon')}</span>
-        </a>`).join('')}
+        ${page.categories.map((item, index) => {
+          const meta = categoryMeta(item, index);
+          return `<a class="category-card category-card--${meta.key}" href="${ctx.link(item.route)}">
+            <div class="category-card__visual" aria-hidden="true">
+              <span class="category-card__code">${esc(meta.code)}</span>
+              <span class="category-card__index">${String(index + 1).padStart(2, '0')}</span>
+              <span class="category-card__icon">${icon(meta.icon)}</span>
+            </div>
+            <div class="category-card__body">
+              <h3>${esc(item.title)}</h3>
+              <p>${esc(meta.description)}</p>
+              <div class="category-card__chips">${meta.chips.map(chip => `<span>${esc(chip)}</span>`).join('')}</div>
+              <span class="category-card__link">${esc(meta.link)} ${icon('arrow','inline-icon')}</span>
+            </div>
+          </a>`;
+        }).join('')}
       </div>
     </div>
   </section>`;

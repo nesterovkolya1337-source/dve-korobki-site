@@ -289,7 +289,45 @@ h1 {
 .category-card:hover, .service-index-card:hover { transform: translateY(-3px); border-color: #c8cbd2; box-shadow: var(--shadow); }
 .category-card h3, .service-card h3, .service-index-card h3 { font-size: 21px; margin-bottom: 14px; }
 .category-card p, .service-card p, .service-index-card p { color: var(--muted); }
-.category-card > span { margin-top: auto; align-self: flex-end; color: var(--red); font-size: 24px; }
+.category-card { min-height: 370px; padding: 13px; overflow: hidden; }
+.category-card__visual {
+  min-height: 126px; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr;
+  position: relative; overflow: hidden; padding: 17px;
+  border-radius: 13px; color: var(--white);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(224, 5, 22, .34), transparent 32%),
+    linear-gradient(145deg, #17181d, #0d0e12);
+}
+.category-card__visual::after {
+  content: ""; position: absolute; right: -25px; bottom: -52px; width: 150px; height: 150px;
+  border: 1px solid rgba(255,255,255,.08); border-radius: 50%;
+  box-shadow: 0 0 0 20px rgba(255,255,255,.025), 0 0 0 42px rgba(255,255,255,.018);
+}
+.category-card__code {
+  color: #d2d5da; font-size: 10px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase;
+}
+.category-card__index { color: #777b84; font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+.category-card__icon {
+  align-self: end; width: 50px; height: 50px; display: grid; place-items: center; position: relative; z-index: 1;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: rgba(255,255,255,.07); color: #ff2638;
+  transition: transform .2s ease, background .2s ease;
+}
+.category-card__icon svg { width: 27px; height: 27px; }
+.category-card:hover .category-card__icon { transform: translateY(-3px); background: rgba(255,255,255,.11); }
+.category-card__body { flex: 1; display: flex; flex-direction: column; padding: 17px 9px 9px; }
+.category-card__body h3 { margin: 0 0 9px; font-size: 21px; line-height: 1.2; }
+.category-card__body p { margin: 0 0 16px; font-size: 13px; line-height: 1.5; }
+.category-card__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.category-card__chips span {
+  padding: 5px 8px; border: 1px solid #e6e8ec; border-radius: 99px;
+  background: #f7f8fa; color: #515660; font-size: 10px; font-weight: 800;
+}
+.category-card__link {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: auto;
+  color: var(--red); font-size: 13px; font-weight: 850;
+}
+.category-card__link .inline-icon { transition: transform .2s ease; }
+.category-card:hover .category-card__link .inline-icon { transform: translateX(3px); }
 .service-card__visual {
   height: 104px; display: grid; place-items: center start; margin-bottom: 22px; padding: 18px;
   background:
@@ -602,6 +640,8 @@ h1 {
   .media-placeholder { padding: 24px; }
   .benefit-strip { grid-template-columns: 1fr; }
   .benefit-item + .benefit-item::before { top: 0; left: 20px; right: 20px; bottom: auto; width: auto; height: 1px; }
+  .category-card { min-height: 0; }
+  .category-card__visual { min-height: 112px; }
   .symptom-grid { grid-template-columns: 1fr; }
   .symptom-item { min-height: 0; }
   .symptom-action .button { width: 100%; }
