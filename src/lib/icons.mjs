@@ -92,3 +92,28 @@ export function symptomMeta(value = '') {
 
   return { icon: 'diagnostic', text: 'Причину признака уточняем по результатам диагностики и тестовой поездки.' };
 }
+
+export function processMeta(value = '') {
+  const source = String(value).toLocaleLowerCase('ru');
+
+  if (/заявк|обращ/.test(source)) {
+    return { icon: 'phone', text: 'Уточняем автомобиль, тип коробки и проявления неисправности.' };
+  }
+  if (/диагност|осмотр/.test(source)) {
+    return { icon: 'diagnostic', text: 'Считываем ошибки, проверяем параметры и поведение коробки.' };
+  }
+  if (/соглас/.test(source)) {
+    return { icon: 'check', text: 'Объясняем результаты и согласуем состав работ до ремонта.' };
+  }
+  if (/ремонт|замен/.test(source)) {
+    return { icon: 'wrench', text: 'Выполняем только согласованные операции с необходимыми узлами.' };
+  }
+  if (/адаптац|обуч/.test(source)) {
+    return { icon: 'adaptation', text: 'Проводим базовые установки и обучение после выполненных работ.' };
+  }
+  if (/провер|выдач|гарант/.test(source)) {
+    return { icon: 'target', text: 'Контролируем результат и фиксируем выполненные работы в документах.' };
+  }
+
+  return { icon: 'gear', text: 'Последовательно выполняем этап и сообщаем результат проверки.' };
+}

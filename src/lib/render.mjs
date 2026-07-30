@@ -1,5 +1,5 @@
 import { escapeHtml, jsonScript, joinUrl, canonicalUrl } from './html.mjs';
-import { icon, serviceIconName, symptomMeta } from './icons.mjs';
+import { icon, processMeta, serviceIconName, symptomMeta } from './icons.mjs';
 
 const esc = escapeHtml;
 
@@ -252,7 +252,24 @@ function pricesBlock(items = []) {
 function processSteps(items = []) {
   return `<div class="process">
     ${sectionTitle('Как мы работаем')}
-    <ol class="process-list">${items.map((item, index) => `<li><span>${index + 1}</span><strong>${esc(item)}</strong></li>`).join('')}</ol>
+    <p class="process-intro">Понятный маршрут от первого обращения до контрольной проверки результата.</p>
+    <ol class="process-list">${items.map((item, index) => {
+      const meta = processMeta(item);
+      return `<li>
+        <div class="process-step__head">
+          <span class="process-step__icon">${icon(meta.icon)}</span>
+          <span class="process-step__number">${String(index + 1).padStart(2, '0')}</span>
+        </div>
+        <div class="process-step__body">
+          <strong>${esc(item)}</strong>
+          <p>${esc(meta.text)}</p>
+        </div>
+      </li>`;
+    }).join('')}</ol>
+    <div class="process-footer">
+      <span>Дополнительные работы не начинаем без согласования.</span>
+      <a class="text-link" href="#lead-form">Начать с диагностики ${icon('arrow','inline-icon')}</a>
+    </div>
   </div>`;
 }
 
