@@ -102,17 +102,23 @@ function homeBrandMedia(ctx) {
 
 function media(page, ctx) {
   if (page.route === '/') return homeBrandMedia(ctx);
-  if (page.image) {
+  if (page.image && !page.image.includes('placeholder')) {
     return `<figure class="hero-media">
       <img src="${ctx.asset(page.image)}" alt="${esc(page.shortTitle)}" width="960" height="640">
     </figure>`;
   }
-  return `<div class="hero-media media-placeholder" data-asset-slot="${esc(page.shortTitle)}">
-    <div class="gearbox-silhouette" aria-hidden="true">
-      <span class="gearbox-body"></span><span class="gearbox-clutch"></span><span class="gearbox-module"></span>
+  return `<figure class="service-hero-visual" aria-label="Фирменная иллюстрация: ${esc(page.shortTitle)}">
+    <div class="service-hero-visual__top">
+      <span>Две Коробки</span>
+      <span>${esc(page.eyebrow || 'Сервис трансмиссий')}</span>
     </div>
-    <small>Финальное технически подтверждённое изображение: ${esc(page.shortTitle)}</small>
-  </div>`;
+    <div class="service-hero-visual__core">
+      <span class="service-hero-visual__icon" aria-hidden="true">${icon('gear')}</span>
+      <strong>${esc(page.shortTitle)}</strong>
+      <small>DSG · S-TRONIC · POWERSHIFT · DCT</small>
+    </div>
+    <figcaption>Диагностика · Ремонт · Настройка</figcaption>
+  </figure>`;
 }
 
 function heroHeading(page) {

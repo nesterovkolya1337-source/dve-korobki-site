@@ -33,6 +33,9 @@ for (const item of manifest.routes) {
   }
   if (html.includes('undefined')) errors.push(`${item.route}: contains "undefined"`);
   if (html.includes('TODO')) warnings.push(`${item.route}: contains TODO`);
+  if (item.type === 'service' && !html.includes('service-hero-visual')) {
+    errors.push(`${item.route}: missing branded service hero visual`);
+  }
 }
 
 for (const required of ['404.html','sitemap.xml','robots.txt','styles/main.css','scripts/site.js']) {

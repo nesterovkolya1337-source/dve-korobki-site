@@ -4,20 +4,21 @@
 - Figma production routes mapped: 22.
 - GitHub connection: active.
 - GitHub account: `nesterovkolya1337-source`.
-- Accessible repositories at setup time: 0.
-- Repository creation/push: requires one authenticated local GitHub action because the connector is read-only.
+- Repository: `nesterovkolya1337-source/dve-korobki-site`.
+- Main branch publishing: active.
 - Static build: passed.
 - Automated QA: passed.
 - GitHub Pages workflow: included.
-- Expected repository: `nesterovkolya1337-source/dve-korobki-site`.
-- Expected preview: `https://nesterovkolya1337-source.github.io/dve-korobki-site/`.
+- Lead form delivery: connected to the dedicated mailbox and activated.
+- Preview: `https://nesterovkolya1337-source.github.io/dve-korobki-site/`.
 
-## Current launch blockers
+## Deferred until service launch
 
 1. Exact addresses for Saint Petersburg and Moscow.
-2. Form delivery endpoint.
-3. Legally approved warranty wording.
-4. Confirmed price ranges.
-5. Privacy/personal-data documents.
-6. Final compact logo approval.
-7. Technically verified transmission photography.
+2. Confirmed operator details: ownership form, full name/legal name, tax ID and registration city.
+3. Privacy and personal-data documents, including the form consent link.
+4. Legally approved warranty wording.
+5. Confirmed price ranges.
+6. WhatsApp, Telegram and analytics identifiers.
+7. Production domain and domain mailbox.
+8. Technically verified transmission and workshop photography.
