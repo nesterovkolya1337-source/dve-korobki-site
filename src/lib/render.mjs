@@ -95,16 +95,8 @@ function breadcrumbs(page, ctx) {
 }
 
 function homeBrandMedia(ctx) {
-  return `<figure class="hero-media hero-media--brand" aria-label="Логотип сервиса Две Коробки">
-    <img class="brand-hero__emblem" src="${ctx.asset('/brand/hero-brand-emblem.webp')}" alt="Две коробки между силуэтами Санкт-Петербурга и Москвы" width="1108" height="366">
-    <div class="brand-hero__wordmark" aria-hidden="true">
-      <span>ДВЕ</span><strong>КОРОБКИ</strong>
-    </div>
-    <div class="brand-hero__tagline"><span>РЕМОНТ</span><strong>DSG</strong><span>/ АКПП</span></div>
-    <figcaption class="brand-hero__cities">
-      <span>ПИТЕР</span>
-      <span>МОСКВА</span>
-    </figcaption>
+  return `<figure class="home-brand-visual" aria-label="Логотип сервиса Две Коробки">
+    <img class="brand-hero__logo" src="${ctx.asset('/brand/hero-brand-emblem.webp')}" alt="Две Коробки — ремонт DSG и DCT в Санкт-Петербурге и Москве" width="1108" height="366">
   </figure>`;
 }
 
