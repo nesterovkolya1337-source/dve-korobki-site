@@ -201,7 +201,7 @@ h1 {
 }
 .benefit-item { display: flex; gap: 14px; align-items: center; padding: 22px 24px; position: relative; }
 .benefit-item + .benefit-item::before { content:""; position:absolute; left:0; top:20px; bottom:20px; width:1px; background:var(--line); }
-.benefit-item strong, .benefit-item span { display: block; }
+.benefit-item strong, .benefit-item div > span { display: block; }
 .benefit-item strong { font-size: 15px; }
 .benefit-item div > span { color: var(--muted); font-size: 13px; margin-top: 2px; }
 .icon-badge {
