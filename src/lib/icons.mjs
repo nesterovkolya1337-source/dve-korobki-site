@@ -11,6 +11,9 @@ export function icon(name, className = 'icon') {
     clutch: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 3.5v3m0 11v3M3.5 12h3m11 0h3M6 6l2.1 2.1m7.8 7.8L18 18m0-12-2.1 2.1m-7.8 7.8L6 18"/>',
     adaptation: '<path d="M4 7h6m4 0h6M4 12h2m4 0h10M4 17h10m4 0h2"/><circle cx="12" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="17" r="2"/>',
     flywheel: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.7"/><path d="M12 6.2h.01M17 9.1h.01M17 14.9h.01M12 17.8h.01M7 14.9h.01M7 9.1h.01"/>',
+    warning: '<path d="M12 3.2 21 19H3L12 3.2Z"/><path d="M12 8.5v5.2m0 2.8h.01"/>',
+    temperature: '<path d="M9.5 14.8V5.5a2.5 2.5 0 0 1 5 0v9.3a4.5 4.5 0 1 1-5 0Z"/><path d="M12 8v8.5m5-10.5h2m-2 4h2"/>',
+    vibration: '<path d="M3 9.5h2l1.5-3 3 11 3-11 3 11 1.5-5H21"/><path d="M3 20h18"/>',
     gear: '<g transform="translate(.9 .7)"><path d="m9.3 3-.6 2.1-1.8 1-2.1-.6L3 8.6l1.5 1.6v2.1L3 13.9 4.8 17l2.1-.6 1.8 1 .6 2.1h3.6l.6-2.1 1.8-1 2.1.6 1.8-3.1-1.5-1.6v-2.1l1.5-1.6-1.8-3.1-2.1.6-1.8-1L12.9 3Z"/><circle cx="11.1" cy="11.3" r="3.1"/></g>',
     wrench: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-5.8 5.8 3 3 5.8-5.8a4 4 0 0 0 5.4-5.4l-3 3-3-1-1-3 3-3Z"/>',
     phone: '<path d="M7.2 3.5 9.4 8 7 9.7a15.3 15.3 0 0 0 7.3 7.3l1.7-2.4 4.5 2.2-.8 3.1c-.3 1.1-1.4 1.8-2.5 1.6A18 18 0 0 1 2.5 6.8c-.2-1.1.5-2.2 1.6-2.5l3.1-.8Z"/>',
@@ -45,4 +48,47 @@ export function serviceIconName(item = {}, index = 0) {
   if (/гарант/.test(source)) return 'shield';
   if (/ремонт|короб|dsg|dct|powershift|s-tronic/.test(source)) return 'transmission';
   return ['diagnostic', 'transmission', 'wrench', 'check'][index % 4];
+}
+
+export function symptomMeta(value = '') {
+  const source = String(value).toLocaleLowerCase('ru');
+
+  if (/провер.*покуп/.test(source)) {
+    return { icon: 'diagnostic', text: 'Проверяем ошибки, параметры и поведение коробки до покупки автомобиля.' };
+  }
+  if (/перегрев/.test(source)) {
+    return { icon: 'temperature', text: 'Предупреждение появляется на панели или работа коробки меняется после прогрева.' };
+  }
+  if (/давлен/.test(source)) {
+    return { icon: 'mechatronic', text: 'Проверяем параметры гидравлики и работу мехатроника под нагрузкой.' };
+  }
+  if (/нет связи|tcm|мехатрон/.test(source)) {
+    return { icon: 'mechatronic', text: 'Считываем коды и проверяем электронный блок управления и его цепи.' };
+  }
+  if (/пропада|не включ|задерж/.test(source)) {
+    return { icon: 'clock', text: 'Передача включается не сразу или временно становится недоступна.' };
+  }
+  if (/сброс|адаптац|после ремонт|после мехатрон/.test(source)) {
+    return { icon: 'adaptation', text: 'После вмешательства проверяем базовые установки и качество переключений.' };
+  }
+  if (/аварийн|ошибк|панел/.test(source)) {
+    return { icon: 'warning', text: 'Коробка сообщает об ошибке или ограничивает доступные режимы работы.' };
+  }
+  if (/пробуксов/.test(source)) {
+    return { icon: 'clutch', text: 'Обороты растут быстрее скорости автомобиля, особенно при разгоне.' };
+  }
+  if (/вибрац|дребезг|стук|шум/.test(source)) {
+    return { icon: 'vibration', text: 'Появляются вибрации или посторонние звуки со стороны трансмиссии.' };
+  }
+  if (/замена сцеплен/.test(source)) {
+    return { icon: 'clutch', text: 'После установки сцепления требуется проверка и корректное обучение.' };
+  }
+  if (/износ/.test(source)) {
+    return { icon: 'gear', text: 'Источник и степень износа определяем после проверки конкретного узла.' };
+  }
+  if (/рывк|пинк|толч|удар|неровн/.test(source)) {
+    return { icon: 'transmission', text: 'Толчки ощущаются при старте, разгоне или смене передач.' };
+  }
+
+  return { icon: 'diagnostic', text: 'Причину признака уточняем по результатам диагностики и тестовой поездки.' };
 }

@@ -251,10 +251,40 @@ h1 {
 }
 .dark-panel .section-heading { margin-bottom: 34px; }
 .dark-panel .section-heading h2 { color: var(--white); }
-.symptom-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; margin-bottom: 32px; }
-.symptom-item { display: grid; gap: 12px; font-size: 14px; line-height: 1.25; }
-.symptom-dot { width: 44px; height: 44px; border-radius: 50%; background: var(--white); position: relative; }
-.symptom-dot::after { content:""; position:absolute; width:12px; height:12px; border-radius:50%; background:var(--red); inset:0; margin:auto; }
+.symptom-panel {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 96% 0, rgba(224, 5, 22, .18), transparent 27%),
+    linear-gradient(145deg, #111216, #0b0c0f);
+}
+.symptom-panel > * { position: relative; z-index: 1; }
+.symptom-panel .section-heading { margin-bottom: 14px; }
+.symptom-intro {
+  max-width: 760px; margin: 0 0 30px; color: #b9bdc5; font-size: 15px; line-height: 1.55;
+}
+.symptom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 30px; }
+.symptom-item {
+  min-height: 184px; display: flex; flex-direction: column; padding: 20px;
+  border: 1px solid rgba(255,255,255,.11); border-radius: 16px;
+  background: rgba(255,255,255,.045);
+}
+.symptom-item__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.symptom-icon {
+  width: 46px; height: 46px; display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.16); border-radius: 14px;
+  background: rgba(255,255,255,.08); color: #ff2638;
+}
+.symptom-icon svg { width: 24px; height: 24px; }
+.symptom-index { color: #6f737b; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+.symptom-item h3 { margin: 0 0 8px; color: #fff; font-size: 17px; line-height: 1.25; }
+.symptom-item p { margin: 0; color: #b9bdc5; font-size: 13px; line-height: 1.5; }
+.symptom-action {
+  display: flex; align-items: center; justify-content: space-between; gap: 28px;
+  padding-top: 28px; border-top: 1px solid rgba(255,255,255,.12);
+}
+.symptom-action > div { display: grid; gap: 5px; }
+.symptom-action strong { font-size: 16px; }
+.symptom-action span { color: #b9bdc5; font-size: 13px; }
 
 .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .trust-grid article {
@@ -427,6 +457,7 @@ h1 {
   .card-grid--3, .card-grid--4 { grid-template-columns: 1fr; }
   .category-card, .service-card, .service-index-card { min-height: 0; }
   .symptom-grid { grid-template-columns: repeat(2, 1fr); }
+  .symptom-action { align-items: flex-start; flex-direction: column; }
   .split-layout { grid-template-columns: 1fr; }
   .process-list { grid-template-columns: 1fr; }
   .process-list li { grid-template-columns: 46px 1fr; align-items: center; }
@@ -461,6 +492,8 @@ h1 {
   .benefit-strip { grid-template-columns: 1fr; }
   .benefit-item + .benefit-item::before { top: 0; left: 20px; right: 20px; bottom: auto; width: auto; height: 1px; }
   .symptom-grid { grid-template-columns: 1fr; }
+  .symptom-item { min-height: 0; }
+  .symptom-action .button { width: 100%; }
   .dark-panel { padding: 28px 22px; }
   .price-panel { padding: 26px 22px; }
   .lead-panel h2 { font-size: 30px; }

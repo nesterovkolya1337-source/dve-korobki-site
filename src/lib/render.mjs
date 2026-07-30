@@ -1,5 +1,5 @@
 import { escapeHtml, jsonScript, joinUrl, canonicalUrl } from './html.mjs';
-import { icon, serviceIconName } from './icons.mjs';
+import { icon, serviceIconName, symptomMeta } from './icons.mjs';
 
 const esc = escapeHtml;
 
@@ -165,12 +165,26 @@ function symptoms(items = [], title = 'Частые признаки неисп�
   if (!items.length) return '';
   return `<section class="section">
     <div class="container">
-      <div class="dark-panel">
+      <div class="dark-panel symptom-panel">
         ${sectionTitle(title)}
+        <p class="symptom-intro">Один признак ещё не определяет неисправность. Точную причину показывают диагностика и проверка автомобиля в движении.</p>
         <div class="symptom-grid">
-          ${items.map(item => `<div class="symptom-item"><span class="symptom-dot"></span><span>${esc(item)}</span></div>`).join('')}
+          ${items.map((item, index) => {
+            const meta = symptomMeta(item);
+            return `<article class="symptom-item">
+              <div class="symptom-item__top">
+                <span class="symptom-icon">${icon(meta.icon)}</span>
+                <span class="symptom-index">${String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <h3>${esc(item)}</h3>
+              <p>${esc(meta.text)}</p>
+            </article>`;
+          }).join('')}
         </div>
-        <a class="button button--light" href="#lead-form">Бесплатная консультация</a>
+        <div class="symptom-action">
+          <div><strong>Заметили один или несколько признаков?</strong><span>Опишите поведение автомобиля — начнём с диагностики.</span></div>
+          <a class="button button--light" href="#lead-form">Записаться на диагностику</a>
+        </div>
       </div>
     </div>
   </section>`;
