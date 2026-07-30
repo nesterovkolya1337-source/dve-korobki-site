@@ -1,5 +1,5 @@
 import { escapeHtml, jsonScript, joinUrl, canonicalUrl } from './html.mjs';
-import { icon } from './icons.mjs';
+import { icon, serviceIconName } from './icons.mjs';
 
 const esc = escapeHtml;
 
@@ -184,7 +184,7 @@ function serviceCards(items = [], title = 'Что мы делаем') {
       <div class="card-grid card-grid--4">
         ${items.map((item, index) => `<article class="service-card">
           <div class="service-card__visual" aria-hidden="true">
-            <span>${icon(['diagnostic','gear','wrench','check'][index % 4])}</span>
+            <span>${icon(serviceIconName(item, index))}</span>
           </div>
           <h3>${esc(item.title)}</h3>
           <p>${esc(item.text)}</p>
@@ -208,7 +208,7 @@ function renderServiceCards(items, ctx, title = 'Что мы делаем') {
       <div class="card-grid card-grid--4">
         ${items.map((item, index) => `<article class="service-card">
           <div class="service-card__visual" aria-hidden="true">
-            <span>${icon(['diagnostic','gear','wrench','check'][index % 4])}</span>
+            <span>${icon(serviceIconName(item, index))}</span>
           </div>
           <h3>${esc(item.title)}</h3>
           <p>${esc(item.text)}</p>
@@ -400,7 +400,7 @@ function renderServices(page, ctx) {
     ${groups.map(([name,routes]) => `<section class="section"><div class="container">${sectionTitle(name)}
       <div class="card-grid card-grid--3">${routes.map(route => {
         const p = byRoute.get(route);
-        return `<a class="service-index-card" href="${ctx.link(route)}"><span class="icon-badge">${icon('gear')}</span><h3>${esc(p.shortTitle)}</h3><p>${esc(p.description)}</p><span class="text-link">Открыть ${icon('arrow','inline-icon')}</span></a>`;
+        return `<a class="service-index-card" href="${ctx.link(route)}"><span class="icon-badge">${icon(serviceIconName({ title: p.shortTitle, text: p.description, route: p.route }))}</span><h3>${esc(p.shortTitle)}</h3><p>${esc(p.description)}</p><span class="text-link">Открыть ${icon('arrow','inline-icon')}</span></a>`;
       }).join('')}</div></div></section>`).join('')}${cta(ctx)}`;
 }
 

@@ -206,8 +206,10 @@ h1 {
 .benefit-item div > span { color: var(--muted); font-size: 13px; margin-top: 2px; }
 .icon-badge {
   flex: 0 0 auto; width: 42px; height: 42px; display: grid; place-items: center;
-  border: 1px solid var(--line); border-radius: 50%; color: var(--red); background: var(--white);
+  border: 1px solid rgba(224, 5, 22, .18); border-radius: 14px; color: var(--red); background: var(--white);
+  box-shadow: 0 8px 22px rgba(14, 15, 18, .055);
 }
+.icon-badge svg { width: 22px; height: 22px; }
 
 .section { padding: 74px 0; }
 .section--compact { padding-top: 20px; padding-bottom: 100px; }
@@ -229,10 +231,18 @@ h1 {
 .category-card p, .service-card p, .service-index-card p { color: var(--muted); }
 .category-card > span { margin-top: auto; align-self: flex-end; color: var(--red); font-size: 24px; }
 .service-card__visual {
-  height: 92px; display: grid; place-items: center; margin-bottom: 22px;
-  background: var(--light); border-radius: 14px; color: var(--red); font-size: 42px;
+  height: 104px; display: grid; place-items: center start; margin-bottom: 22px; padding: 18px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(224, 5, 22, .09), transparent 34%),
+    linear-gradient(145deg, #f8f9fb, #f1f3f6);
+  border: 1px solid #eceff3; border-radius: 16px; color: var(--red);
 }
-.service-card__visual svg { width: 1em; height: 1em; }
+.service-card__visual span {
+  width: 58px; height: 58px; display: grid; place-items: center;
+  border: 1px solid rgba(224, 5, 22, .2); border-radius: 17px; background: #fff;
+  box-shadow: 0 12px 28px rgba(14, 15, 18, .07);
+}
+.service-card__visual svg { width: 30px; height: 30px; }
 .text-link { display: inline-flex; gap: 6px; align-items: center; margin-top: auto; color: var(--red); font-weight: 800; }
 .inline-icon { width: 18px; height: 18px; vertical-align: middle; }
 
