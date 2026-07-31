@@ -584,18 +584,97 @@ function ctaForm(ctx) {
 
 function renderServices(page, ctx) {
   const groups = [
-    ['VAG DSG / S-Tronic', ['/remont-dsg-dq200/','/remont-dsg-dq250/','/remont-dsg-dq500/','/remont-s-tronic-dl501/']],
-    ['Ford PowerShift', ['/remont-powershift-dps6/','/remont-powershift-mps6/']],
-    ['Китайские и азиатские DCT', ['/remont-geely-7dct/','/remont-chery-getrag-7dct300/','/remont-exeed-borgwarner-7dct/','/remont-magna-pt-7dct/','/remont-omoda-jaecoo-dct/','/remont-hyundai-kia-d7uf1-d7gf1/']],
-    ['Отдельные услуги', ['/diagnostika-dsg-powershift-dct/','/remont-mehatronika-dsg-dct/','/zamena-stsepleniya-dsg-dct/','/adaptaciya-dsg-powershift-dct/','/remont-dvuhmassovyh-mahovikov/']]
+    {
+      id: 'service-work',
+      key: 'work',
+      code: 'SERVICE',
+      kicker: 'Работы сервиса',
+      title: 'Диагностика и ключевые работы',
+      description: 'От поиска причины неисправности до ремонта узла, замены сцепления и финальной адаптации.',
+      cardLabel: 'Услуга',
+      grid: 'core',
+      routes: ['/diagnostika-dsg-powershift-dct/','/remont-mehatronika-dsg-dct/','/zamena-stsepleniya-dsg-dct/','/adaptaciya-dsg-powershift-dct/','/remont-dvuhmassovyh-mahovikov/']
+    },
+    {
+      id: 'vag-gearboxes',
+      key: 'vag',
+      code: 'VAG',
+      kicker: 'DSG / S-Tronic',
+      title: 'Коробки VAG',
+      description: 'Профильные страницы по сухим и мокрым коробкам DSG, а также продольной S-Tronic.',
+      cardLabel: 'Модель КПП',
+      grid: 'four',
+      routes: ['/remont-dsg-dq200/','/remont-dsg-dq250/','/remont-dsg-dq500/','/remont-s-tronic-dl501/']
+    },
+    {
+      id: 'powershift-gearboxes',
+      key: 'powershift',
+      code: 'FORD',
+      kicker: 'PowerShift',
+      title: 'Коробки Ford',
+      description: 'Два основных семейства PowerShift: сухая DPS6 и мокрая MPS6 / 6DCT450.',
+      cardLabel: 'Модель КПП',
+      grid: 'two',
+      routes: ['/remont-powershift-dps6/','/remont-powershift-mps6/']
+    },
+    {
+      id: 'asian-gearboxes',
+      key: 'asia',
+      code: 'DCT',
+      kicker: 'Китайские и азиатские DCT',
+      title: 'Коробки Geely, Chery, Exeed и других марок',
+      description: 'Отдельные направления по роботизированным коробкам популярных китайских и азиатских автомобилей.',
+      cardLabel: 'Марка / КПП',
+      grid: 'three',
+      routes: ['/remont-geely-7dct/','/remont-chery-getrag-7dct300/','/remont-exeed-borgwarner-7dct/','/remont-magna-pt-7dct/','/remont-omoda-jaecoo-dct/','/remont-hyundai-kia-d7uf1-d7gf1/']
+    }
   ];
   const byRoute = new Map(ctx.pages.map(p => [p.route, p]));
-  return `<section class="hero hero--simple"><div class="container">${breadcrumbs(page, ctx)}<div class="hero-copy"><h1>${esc(page.title)}</h1><p class="hero-lead">${esc(page.description)}</p></div></div></section>
-    ${groups.map(([name,routes]) => `<section class="section"><div class="container">${sectionTitle(name)}
-      <div class="card-grid card-grid--3">${routes.map(route => {
+  const serviceCount = groups.reduce((total, group) => total + group.routes.length, 0);
+  const directory = groups.map((group, index) => `<a class="services-directory__item" href="#${group.id}">
+    <span class="services-directory__index">${String(index + 1).padStart(2, '0')}</span>
+    <span><strong>${esc(group.title)}</strong><small>${esc(group.kicker)}</small></span>
+    <span class="services-directory__count">${group.routes.length}</span>
+    ${icon('arrow', 'inline-icon')}
+  </a>`).join('');
+  const catalog = groups.map(group => `<section class="section service-group-section service-group-section--${group.key}" id="${group.id}">
+    <div class="container">
+      <div class="service-group__header">
+        ${sectionTitle(group.title, group.kicker)}
+        <p>${esc(group.description)}</p>
+      </div>
+      <div class="service-group__grid service-group__grid--${group.grid}">${group.routes.map((route, index) => {
         const p = byRoute.get(route);
-        return `<a class="service-index-card" href="${ctx.link(route)}"><span class="icon-badge">${icon(serviceIconName({ title: p.shortTitle, text: p.description, route: p.route }))}</span><h3>${esc(p.shortTitle)}</h3><p>${esc(p.description)}</p><span class="text-link">Открыть ${icon('arrow','inline-icon')}</span></a>`;
-      }).join('')}</div></div></section>`).join('')}${cta(ctx)}`;
+        const iconName = serviceIconName({ title: p.shortTitle, text: p.description, route: p.route });
+        return `<a class="service-index-card service-index-card--${group.key}" href="${ctx.link(route)}">
+          <span class="service-index-card__visual">
+            <span class="service-index-card__meta"><strong>${esc(group.cardLabel)}</strong><small>${esc(group.code)}.${String(index + 1).padStart(2, '0')}</small></span>
+            <span class="service-index-card__icon">${icon(iconName)}</span>
+          </span>
+          <span class="service-index-card__body">
+            <h3>${esc(p.shortTitle)}</h3>
+            <p>${esc(p.description)}</p>
+            <span class="service-index-card__link">Подробнее ${icon('arrow','inline-icon')}</span>
+          </span>
+        </a>`;
+      }).join('')}</div>
+    </div>
+  </section>`).join('');
+  return `<section class="hero services-hero"><div class="container">${breadcrumbs(page, ctx)}
+    <div class="services-hero__grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Все направления сервиса</p>
+        <h1>${esc(page.title)}</h1>
+        <p class="hero-lead">${esc(page.description)}</p>
+        <div class="button-row"><a class="button button--primary" href="#service-work">Выбрать услугу</a><a class="button button--secondary" href="#lead-form">Записаться</a></div>
+      </div>
+      <aside class="services-directory" aria-label="Направления сервиса">
+        <div class="services-directory__head"><span>Карта направлений</span><strong>${serviceCount} страниц</strong></div>
+        <div class="services-directory__list">${directory}</div>
+      </aside>
+    </div>
+  </div></section>
+  ${catalog}${cta(ctx)}`;
 }
 
 function renderPrices(page, ctx) {
