@@ -23,6 +23,7 @@
     "parts": "до 12 месяцев",
     "confirmed": false
   },
+  "pricesConfirmed": false,
   "formEndpoint": "https://formsubmit.co/ajax/dvekorobki.zayavki@mail.ru",
   "analytics": {
     "yandexMetrikaId": "",

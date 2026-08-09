@@ -249,17 +249,20 @@ function benefits(items = [], variant = 'default') {
     : ['shield', 'diagnostic', 'clock', 'ruble'];
   return `<section class="benefit-section">
     <div class="container"><div class="benefit-strip${variant === 'home' ? ' benefit-strip--home' : ''}">
-      ${items.map((item, index) => `<div class="benefit-item">
+      ${items.map((item, index) => {
+        const text = variant !== 'home' && /срок/i.test(item.title) ? 'После диагностики' : item.text;
+        return `<div class="benefit-item">
         <span class="icon-badge">${icon(icons[index % icons.length])}</span>
-        <div><strong>${esc(item.title)}</strong><span>${esc(item.text)}</span></div>
-      </div>`).join('')}
+        <div><strong>${esc(item.title)}</strong><span>${esc(text)}</span></div>
+      </div>`;
+      }).join('')}
     </div></div>
   </section>`;
 }
 
-function symptoms(items = [], title = 'Частые признаки неисправности') {
+function symptoms(items = [], title = 'Частые признаки неисправности', id = '') {
   if (!items.length) return '';
-  return `<section class="section">
+  return `<section class="section"${id ? ` id="${esc(id)}"` : ''}>
     <div class="container">
       <div class="dark-panel symptom-panel">
         ${sectionTitle(title)}
@@ -286,33 +289,9 @@ function symptoms(items = [], title = 'Частые признаки неисп�
   </section>`;
 }
 
-function serviceCards(items = [], title = 'Что мы делаем') {
-  if (!items.length) return '';
-  return `<section class="section">
-    <div class="container">
-      ${sectionTitle(title)}
-      <div class="card-grid card-grid--4">
-        ${items.map((item, index) => `<article class="service-card">
-          <div class="service-card__visual" aria-hidden="true">
-            <span>${icon(serviceIconName(item, index))}</span>
-          </div>
-          <h3>${esc(item.title)}</h3>
-          <p>${esc(item.text)}</p>
-          ${item.route ? `<a class="text-link" href="${ctxPlaceholder(item.route)}">Подробнее ${icon('arrow','inline-icon')}</a>` : ''}
-        </article>`).join('')}
-      </div>
-    </div>
-  </section>`;
-}
-
-// Replaced by renderServiceCards to keep route links context-aware.
-function ctxPlaceholder(route) {
-  return route;
-}
-
-function renderServiceCards(items, ctx, title = 'Что мы делаем') {
+function renderServiceCards(items, ctx, title = 'Что мы делаем', id = '') {
   if (!items?.length) return '';
-  return `<section class="section">
+  return `<section class="section"${id ? ` id="${esc(id)}"` : ''}>
     <div class="container">
       ${sectionTitle(title)}
       <div class="card-grid card-grid--4">
@@ -329,16 +308,17 @@ function renderServiceCards(items, ctx, title = 'Что мы делаем') {
   </section>`;
 }
 
-function pricesBlock(items = []) {
+function pricesBlock(items = [], ctx, id = '') {
   if (!items.length) return '';
-  return `<section class="section">
+  const pricesConfirmed = ctx?.business?.pricesConfirmed === true;
+  return `<section class="section"${id ? ` id="${esc(id)}"` : ''}>
     <div class="container split-layout">
       <div class="price-panel">
         ${sectionTitle('Стоимость')}
         <div class="price-list">
-          ${items.map(item => `<div class="price-row"><span>${esc(item.name)}</span><strong>${esc(item.value)}</strong></div>`).join('')}
+          ${items.map(item => `<div class="price-row"><span>${esc(item.name)}</span><strong>${pricesConfirmed ? esc(item.value) : 'после диагностики'}</strong></div>`).join('')}
         </div>
-        <p class="fine-print">* Диапазоны ориентировочные. Финальная стоимость определяется после диагностики.</p>
+        <p class="fine-print">Точную стоимость определяем после проверки автомобиля и согласовываем до начала работ.</p>
       </div>
       <div class="process-wrap">${processSteps(['Диагностика','Согласование','Ремонт','Адаптация','Проверка'])}</div>
     </div>
@@ -369,9 +349,9 @@ function processSteps(items = []) {
   </div>`;
 }
 
-function faq(items = []) {
+function faq(items = [], id = '') {
   if (!items.length) return '';
-  return `<section class="section">
+  return `<section class="section"${id ? ` id="${esc(id)}"` : ''}>
     <div class="container">
       ${sectionTitle('Вопросы и ответы')}
       <div class="faq-list">
@@ -421,6 +401,48 @@ function seoText(page) {
   return `<section class="section section--compact">
     <div class="container">
       <div class="seo-card">${sectionTitle(`О странице «${page.shortTitle}»`)}<p>${esc(page.seoText)}</p></div>
+    </div>
+  </section>`;
+}
+
+function servicePageNav(page) {
+  const links = [
+    ['symptoms', 'Признаки', page.symptoms?.length],
+    ['service-scope', 'Что проверяем', page.services?.length],
+    ['prices', 'Стоимость', page.prices?.length],
+    ['faq', 'Вопросы', page.faq?.length],
+    ['related-services', 'Другие направления', true]
+  ].filter(([, , visible]) => visible);
+  return `<nav class="service-page-nav" aria-label="Разделы страницы">
+    <div class="container"><div class="service-page-nav__track">
+      <span class="service-page-nav__label">На странице</span>
+      ${links.map(([id, label]) => `<a href="#${id}">${esc(label)}</a>`).join('')}
+      <a class="service-page-nav__action" href="#lead-form">Записаться ${icon('arrow', 'inline-icon')}</a>
+    </div></div>
+  </nav>`;
+}
+
+function relatedServices(page, ctx) {
+  const families = [
+    ['/diagnostika-dsg-powershift-dct/','/remont-mehatronika-dsg-dct/','/zamena-stsepleniya-dsg-dct/','/adaptaciya-dsg-powershift-dct/','/remont-dvuhmassovyh-mahovikov/'],
+    ['/remont-dsg-dq200/','/remont-dsg-dq250/','/remont-dsg-dq500/','/remont-s-tronic-dl501/'],
+    ['/remont-powershift-dps6/','/remont-powershift-mps6/'],
+    ['/remont-geely-7dct/','/remont-chery-getrag-7dct300/','/remont-exeed-borgwarner-7dct/','/remont-magna-pt-7dct/','/remont-omoda-jaecoo-dct/','/remont-hyundai-kia-d7uf1-d7gf1/']
+  ];
+  const family = families.find(routes => routes.includes(page.route)) || families[0];
+  const byRoute = new Map(ctx.pages.map(item => [item.route, item]));
+  const related = family.filter(route => route !== page.route).map(route => byRoute.get(route)).filter(Boolean).slice(0, 3);
+  if (!related.length) return '';
+  return `<section class="section related-services" id="related-services">
+    <div class="container">
+      ${sectionTitle('Другие направления', 'Продолжить выбор')}
+      <div class="related-services__grid">
+        ${related.map((item, index) => `<a class="related-service-card" href="${ctx.link(item.route)}">
+          <span class="related-service-card__top"><span class="related-service-card__icon">${icon(serviceIconName(item, index))}</span><small>${String(index + 1).padStart(2, '0')}</small></span>
+          <span class="related-service-card__body"><strong>${esc(item.shortTitle)}</strong><span>${esc(item.description)}</span></span>
+          <span class="related-service-card__link">Подробнее ${icon('arrow', 'inline-icon')}</span>
+        </a>`).join('')}
+      </div>
     </div>
   </section>`;
 }
@@ -541,32 +563,43 @@ function renderService(page, ctx) {
   return [
     hero(page, ctx),
     benefits(page.benefits),
-    symptoms(page.symptoms, `Признаки неисправности: ${page.shortTitle}`),
-    renderServiceCards(page.services, ctx, 'Что проверяем и ремонтируем'),
-    pricesBlock(page.prices),
-    faq(page.faq),
+    servicePageNav(page),
+    symptoms(page.symptoms, `Признаки неисправности: ${page.shortTitle}`, 'symptoms'),
+    renderServiceCards(page.services, ctx, 'Что проверяем и ремонтируем', 'service-scope'),
+    pricesBlock(page.prices, ctx, 'prices'),
+    faq(page.faq, 'faq'),
+    relatedServices(page, ctx),
     cta(ctx, `Нужна диагностика ${page.shortTitle}?`),
     seoText(page)
   ].join('');
 }
 
 function renderContacts(page, ctx) {
-  const cards = ctx.business.cities.map(city => `<article class="contact-card">
+  const cards = ctx.business.cities.map(city => {
+    const address = ctx.business.addresses[city] || '';
+    const addressConfirmed = address && !/требуется|подтверд/i.test(address);
+    return `<article class="contact-card contact-card--city">
     ${icon('pin')}<h3>${esc(city)}</h3>
-    <p>${esc(ctx.business.addresses[city] || 'Адрес требуется подтвердить')}</p>
+    <p>${addressConfirmed ? esc(address) : 'Адрес точки будет опубликован к открытию.'}</p>
     <a href="tel:${esc(ctx.business.phoneHref)}">${esc(ctx.business.phoneDisplay)}</a>
     <span>${esc(ctx.business.hours)}</span>
-  </article>`).join('');
+  </article>`;
+  }).join('');
+  const cityTags = ctx.business.cities.map(city => `<span>${icon('pin')}${esc(city)}</span>`).join('');
   return `<section class="hero hero--simple"><div class="container">${breadcrumbs(page, ctx)}
       <div class="hero-grid"><div class="hero-copy"><h1>${esc(page.title)}</h1><p class="hero-lead">${esc(page.description)}</p>
       <div class="button-row"><a class="button button--primary" href="tel:${esc(ctx.business.phoneHref)}">Позвонить</a><a class="button button--secondary" href="#lead-form">Записаться</a></div></div>
       <div class="quick-form-card">${sectionTitle('Быстрая запись')}${ctaForm(ctx)}</div></div>
     </div></section>
-    <section class="section"><div class="container">${sectionTitle('Адреса и связь')}<div class="contact-grid">${cards}
+    <section class="section"><div class="container">${sectionTitle('Города и связь')}<div class="contact-grid">${cards}
       <article class="contact-card">${icon('phone')}<h3>Онлайн-заявка</h3><p>Можно прислать фото ошибок и описать симптомы.</p><a href="#lead-form">Оставить заявку</a></article>
     </div></div></section>
     <section class="section"><div class="container split-layout">
-      <div class="map-placeholder">${icon('pin')}<strong>Карта появится после подтверждения адресов</strong><p>Для production нужны точные адреса Санкт-Петербурга и Москвы.</p></div>
+      <div class="contact-coverage">
+        <div class="contact-coverage__top"><span>География сервиса</span><strong>${String(ctx.business.cities.length).padStart(2, '0')} города</strong></div>
+        <div class="contact-coverage__core"><span class="contact-coverage__icon">${icon('target')}</span><strong>Санкт-Петербург<br>и Москва</strong><p>Точные адреса точек появятся на сайте перед открытием.</p></div>
+        <div class="contact-coverage__cities">${cityTags}</div>
+      </div>
       <div class="visit-card">${sectionTitle('Перед визитом')}<ul><li>Запишитесь заранее</li><li>Опишите симптомы</li><li>Не стирайте ошибки</li><li>Возьмите прошлые заказ-наряды</li></ul></div>
     </div></section>${cta(ctx)}`;
 }
@@ -679,18 +712,23 @@ function renderServices(page, ctx) {
 
 function renderPrices(page, ctx) {
   const servicePages = ctx.pages.filter(p => p.type === 'service' && p.prices?.length);
+  const pricesConfirmed = ctx.business.pricesConfirmed === true;
   return `<section class="hero hero--simple"><div class="container">${breadcrumbs(page, ctx)}<div class="hero-copy"><h1>${esc(page.title)}</h1><p class="hero-lead">${esc(page.description)}</p></div></div></section>
   <section class="section"><div class="container">${sectionTitle('Ориентировочные работы')}
     <div class="price-table">
-      ${servicePages.map(p => `<a href="${ctx.link(p.route)}" class="price-table-row"><strong>${esc(p.shortTitle)}</strong><span>${esc(p.prices[0]?.value || 'после диагностики')}</span>${icon('arrow','inline-icon')}</a>`).join('')}
-    </div><p class="fine-print">Цены со знаком * требуют подтверждения владельцем бизнеса перед публикацией.</p>
+      ${servicePages.map(p => `<a href="${ctx.link(p.route)}" class="price-table-row"><strong>${esc(p.shortTitle)}</strong><span>${pricesConfirmed ? esc(p.prices[0]?.value || 'после диагностики') : 'после диагностики'}</span>${icon('arrow','inline-icon')}</a>`).join('')}
+    </div><p class="fine-print">Точная стоимость зависит от состояния узла и определяется после диагностики.</p>
   </div></section>${cta(ctx, 'Нужна точная смета?')}`;
 }
 
 function renderAbout(page, ctx) {
   return `<section class="hero hero--simple"><div class="container">${breadcrumbs(page, ctx)}
     <div class="hero-grid"><div class="hero-copy"><h1>${esc(page.title)}</h1><p class="hero-lead">${esc(page.description)}</p><div class="button-row"><a class="button button--primary" href="#lead-form">Записаться</a><a class="button button--secondary" href="${ctx.link('/uslugi/')}">Услуги</a></div></div>
-    <div class="hero-media media-placeholder"><div class="workshop-visual">${icon('gear')}</div><small>Реальное фото сервиса требуется до публикации</small></div></div>
+    <figure class="about-brand-visual" aria-label="Профильный сервис роботизированных трансмиссий">
+      <div class="about-brand-visual__top"><span>Две Коробки</span><span>Профильный сервис</span></div>
+      <div class="about-brand-visual__core"><span>${icon('gear')}</span><strong>DSG · DCT</strong><small>Диагностика и ремонт роботизированных трансмиссий</small></div>
+      <figcaption><span>DSG</span><span>S-Tronic</span><span>PowerShift</span><span>DCT</span></figcaption>
+    </figure></div>
   </div></section>
   <section class="section"><div class="container">${sectionTitle('Почему нам доверяют')}
     <div class="trust-grid">${[
