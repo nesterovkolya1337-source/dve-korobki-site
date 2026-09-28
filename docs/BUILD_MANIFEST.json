@@ -1,8 +1,9 @@
 {
-  "generatedAt": "2026-07-22T07:42:28.687Z",
+  "generatedAt": "2026-09-28T20:31:59.708Z",
   "routeCount": 22,
   "siteUrl": "https://nesterovkolya1337-source.github.io/dve-korobki-site",
   "base": "",
+  "intakeEnabled": false,
   "routes": [
     {
       "route": "/",

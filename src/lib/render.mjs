@@ -1,6 +1,7 @@
 import { escapeHtml, jsonScript, joinUrl, canonicalUrl } from './html.mjs';
 import { icon, processMeta, serviceIconName, symptomMeta } from './icons.mjs';
 import { photo, servicePhotoKey, teamGallery } from './photos.mjs';
+import { intakeEnabled } from './intake.mjs';
 
 const esc = escapeHtml;
 
@@ -367,33 +368,42 @@ function faq(items = [], id = '') {
   </section>`;
 }
 
-function formMeta() {
+function formMeta(ctx) {
   return `<input type="hidden" name="_subject" value="Новая заявка — Две Коробки">
     <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="consent_version" value="${esc(ctx.business.legal.consentVersion)}">
     <input type="hidden" name="_url" value="" data-form-source>
     <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">`;
 }
 
-function formConsent() {
+function formConsent(ctx) {
   return `<label class="form-consent">
     <input name="Согласие" type="checkbox" value="Да" required>
-    <span>Согласен на обработку имени и телефона для обратной связи</span>
-  </label>`;
+    <span>Даю <a href="${ctx.asset(ctx.business.legal.consentPath)}">согласие на обработку персональных данных</a> для обратной связи по моей заявке.</span>
+  </label><p class="form-privacy">Как обрабатываются данные: <a href="${ctx.asset(ctx.business.legal.privacyPolicyPath)}">политика обработки персональных данных</a>.</p>`;
+}
+
+function phoneBooking(ctx) {
+  return `<div class="phone-booking" data-phone-booking>
+    <a class="button button--primary" href="tel:${esc(ctx.business.phoneHref)}"><span>Позвонить<span class="phone-booking__number">${esc(ctx.business.phoneDisplay)}</span></span></a>
+    <p>${esc(ctx.business.hours)}</p>
+    <p class="phone-booking__note">Онлайн-запись временно недоступна. Запишитесь по телефону.</p>
+  </div>`;
 }
 
 function cta(ctx, title = 'Записаться на диагностику') {
   return `<section class="section section--cta" id="lead-form">
     <div class="container">
       <div class="lead-panel">
-        <div><h2>${esc(title)}</h2><p>Опишите симптомы — перезвоним и подскажем первый шаг.</p></div>
-        <form class="lead-form" data-lead-form action="${esc(ctx.business.formEndpoint || '')}" method="post">
-          ${formMeta()}
+        <div><h2>${esc(title)}</h2><p>${intakeEnabled(ctx.business) ? 'Оставьте телефон — перезвоним и уточним симптомы.' : 'Позвоните и расскажите, как ведёт себя коробка. Уточним автомобиль, симптомы и удобное время.'}</p></div>
+        ${intakeEnabled(ctx.business) ? `<form class="lead-form" data-lead-form action="${esc(ctx.business.formEndpoint)}" method="post">
+          ${formMeta(ctx)}
           <label><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Ваше имя"></label>
           <label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" minlength="7" required placeholder="+7 ___ ___-__-__"></label>
           <button class="button button--primary" type="submit">Отправить заявку</button>
-          ${formConsent()}
+          ${formConsent(ctx)}
           <p class="form-status" role="status" data-form-status></p>
-        </form>
+        </form>` : phoneBooking(ctx)}
       </div>
     </div>
   </section>`;
@@ -596,7 +606,7 @@ function renderContacts(page, ctx) {
       <div class="quick-form-card">${sectionTitle('Быстрая запись')}${ctaForm(ctx)}</div></div>
     </div></section>
     <section class="section"><div class="container">${sectionTitle('Города и связь')}<div class="contact-grid">${cards}
-      <article class="contact-card">${icon('phone')}<h3>Онлайн-заявка</h3><p>Можно прислать фото ошибок и описать симптомы.</p><a href="#lead-form">Оставить заявку</a></article>
+      <article class="contact-card">${icon('phone')}<h3>Запись и вопросы</h3><p>Подготовьте марку, модель автомобиля и описание симптомов. Уточните адрес перед поездкой.</p><a href="tel:${esc(ctx.business.phoneHref)}">Позвонить в сервис</a></article>
     </div></div></section>
     <section class="section"><div class="container split-layout">
       <div class="contact-coverage">
@@ -609,12 +619,13 @@ function renderContacts(page, ctx) {
 }
 
 function ctaForm(ctx) {
+  if (!intakeEnabled(ctx.business)) return phoneBooking(ctx);
   return `<form class="stack-form" data-lead-form action="${esc(ctx.business.formEndpoint || '')}" method="post">
-    ${formMeta()}
-    <input name="name" placeholder="Ваше имя" autocomplete="name">
-    <input name="phone" placeholder="Телефон" type="tel" inputmode="tel" autocomplete="tel" minlength="7" required>
+    ${formMeta(ctx)}
+    <label><span>Ваше имя</span><input name="name" placeholder="Ваше имя" autocomplete="name"></label>
+    <label><span>Телефон</span><input name="phone" placeholder="Телефон" type="tel" inputmode="tel" autocomplete="tel" minlength="7" required></label>
     <button class="button button--primary" type="submit">Отправить заявку</button>
-    ${formConsent()}
+    ${formConsent(ctx)}
     <p class="form-status" role="status" data-form-status></p>
   </form>`;
 }
@@ -624,7 +635,7 @@ function renderServices(page, ctx) {
     {
       id: 'service-work',
       key: 'work',
-      code: 'SERVICE',
+      code: 'УСЛУГА',
       kicker: 'Работы сервиса',
       title: 'Диагностика и ключевые работы',
       description: 'От поиска причины неисправности до ремонта узла, замены сцепления и финальной адаптации.',

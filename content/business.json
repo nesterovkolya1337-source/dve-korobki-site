@@ -24,7 +24,23 @@
     "confirmed": false
   },
   "pricesConfirmed": false,
-  "formEndpoint": "https://formsubmit.co/ajax/dvekorobki.zayavki@mail.ru",
+  "formEndpoint": "",
+  "leadForm": {
+    "enabled": false,
+    "processingConfirmed": false,
+    "storageCountry": "",
+    "approvedEndpoint": ""
+  },
+  "legal": {
+    "confirmed": false,
+    "operatorName": "",
+    "operatorAddress": "",
+    "inn": "",
+    "privacyContact": "",
+    "privacyPolicyPath": "",
+    "consentPath": "",
+    "consentVersion": ""
+  },
   "analytics": {
     "yandexMetrikaId": "",
     "googleAnalyticsId": ""
