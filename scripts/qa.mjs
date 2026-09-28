@@ -33,8 +33,16 @@ for (const item of manifest.routes) {
   }
   if (html.includes('undefined')) errors.push(`${item.route}: contains "undefined"`);
   if (html.includes('TODO')) warnings.push(`${item.route}: contains TODO`);
-  if (item.type === 'service' && !html.includes('service-hero-visual')) {
-    errors.push(`${item.route}: missing branded service hero visual`);
+  if (item.type === 'service' && !html.includes('service-hero-visual') && !html.includes('real-photo--hero')) {
+    errors.push(`${item.route}: missing service hero visual`);
+  }
+  for (const match of html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) {
+    const src = match[1];
+    if (/^(?:https?:|data:)/.test(src)) continue;
+    let assetPath = src.split('?')[0];
+    if (manifest.base && assetPath.startsWith(`${manifest.base}/`)) assetPath = assetPath.slice(manifest.base.length);
+    try { await stat(join(dist, assetPath.replace(/^\/+/, ''))); }
+    catch { errors.push(`${item.route}: missing image ${src}`); }
   }
 }
 

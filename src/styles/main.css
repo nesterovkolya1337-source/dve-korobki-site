@@ -897,3 +897,40 @@ h1 {
   .footer-grid { grid-template-columns: 1fr; }
   .footer-column:last-child { grid-column: auto; }
 }
+
+/* Owner-supplied photos: preserve mechanical detail and original image bytes. */
+.real-photo { margin: 0; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.real-photo__frame { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: var(--light); }
+.real-photo__frame > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.real-photo figcaption { padding: 14px 18px; font-size: 16px; line-height: 1.4; font-weight: 650; }
+.real-photo--hero { box-shadow: var(--shadow); }
+.real-photo--hero.real-photo--clutch { max-width: 510px; margin-inline: auto; }
+.real-photo--clutch .real-photo__frame { aspect-ratio: 1; }
+.real-photo--workshop .real-photo__frame { aspect-ratio: 1280 / 577; }
+/* The useful area of this supplied screenshot is y=418..862, at 592px wide.
+   Preserve all photographic pixels (including the source watermark), hide phone UI. */
+.real-photo__frame--screenshot { aspect-ratio: 592 / 444; }
+.real-photo__frame--screenshot > img { position: absolute; inset: auto; top: -94.144144%; left: 0; width: 100%; height: auto; max-width: none; }
+.about-team-photo { min-width: 0; }
+.about-team-photo > p { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+.team-gallery { background: var(--light); }
+.team-gallery__grid { display: grid; grid-template-columns: minmax(0, .83fr) minmax(0, 1.17fr); gap: 24px; align-items: stretch; }
+.team-gallery__details { display: grid; gap: 24px; }
+.team-gallery__parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.real-photo--portrait { display: flex; flex-direction: column; }
+.real-photo--portrait .real-photo__frame { flex: 1; aspect-ratio: 3 / 4; }
+.real-photo--portrait figcaption { flex: none; }
+.team-gallery__parts .real-photo { height: 100%; display: flex; flex-direction: column; }
+.team-gallery__parts .real-photo figcaption { margin-top: auto; }
+.team-gallery__parts .real-photo--mechatronic { background: #e4e5e2; }
+.team-gallery__parts .real-photo--mechatronic figcaption { background: var(--white); }
+@media (max-width: 767px) {
+  .team-gallery__grid { grid-template-columns: 1fr; gap: 18px; }
+  .team-gallery__details { gap: 18px; }
+  .team-gallery__parts { gap: 12px; }
+  .real-photo figcaption { padding: 12px 14px; font-size: 14px; }
+  .real-photo--portrait .real-photo__frame { aspect-ratio: 3 / 4; }
+}
+@media (max-width: 420px) {
+  .team-gallery__parts { grid-template-columns: 1fr; gap: 18px; }
+}

@@ -1,5 +1,6 @@
 import { escapeHtml, jsonScript, joinUrl, canonicalUrl } from './html.mjs';
 import { icon, processMeta, serviceIconName, symptomMeta } from './icons.mjs';
+import { photo, servicePhotoKey, teamGallery } from './photos.mjs';
 
 const esc = escapeHtml;
 
@@ -198,6 +199,8 @@ function homeBrandMedia(ctx) {
 
 function media(page, ctx) {
   if (page.route === '/') return homeBrandMedia(ctx);
+  const photoKey = servicePhotoKey(page.route);
+  if (photoKey) return photo(photoKey, ctx, { variant: 'hero', eager: true });
   if (page.image && !page.image.includes('placeholder')) {
     return `<figure class="hero-media">
       <img src="${ctx.asset(page.image)}" alt="${esc(page.shortTitle)}" width="960" height="640">
@@ -541,6 +544,7 @@ function renderHome(page, ctx) {
     hero(page, ctx),
     benefits(page.benefits, 'home'),
     homeCategories(page, ctx),
+    teamGallery(ctx),
     renderServiceCards(page.services, ctx, 'Наши услуги'),
     symptoms(page.symptoms),
     `<section class="section"><div class="container">${sectionTitle('Почему выбирают «Две Коробки»')}
@@ -724,11 +728,7 @@ function renderPrices(page, ctx) {
 function renderAbout(page, ctx) {
   return `<section class="hero hero--simple"><div class="container">${breadcrumbs(page, ctx)}
     <div class="hero-grid"><div class="hero-copy"><h1>${esc(page.title)}</h1><p class="hero-lead">${esc(page.description)}</p><div class="button-row"><a class="button button--primary" href="#lead-form">Записаться</a><a class="button button--secondary" href="${ctx.link('/uslugi/')}">Услуги</a></div></div>
-    <figure class="about-brand-visual" aria-label="Профильный сервис роботизированных трансмиссий">
-      <div class="about-brand-visual__top"><span>Две Коробки</span><span>Профильный сервис</span></div>
-      <div class="about-brand-visual__core"><span>${icon('gear')}</span><strong>DSG · DCT</strong><small>Диагностика и ремонт роботизированных трансмиссий</small></div>
-      <figcaption><span>DSG</span><span>S-Tronic</span><span>PowerShift</span><span>DCT</span></figcaption>
-    </figure></div>
+    <div class="about-team-photo">${photo('workshop', ctx, { variant: 'hero', eager: true, caption: false })}<p>Фото из практики нашей команды</p></div></div>
   </div></section>
   <section class="section"><div class="container">${sectionTitle('Почему нам доверяют')}
     <div class="trust-grid">${[
