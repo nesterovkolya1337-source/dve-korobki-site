@@ -583,7 +583,7 @@ function renderService(page, ctx) {
     pricesBlock(page.prices, ctx, 'prices'),
     faq(page.faq, 'faq'),
     relatedServices(page, ctx),
-    cta(ctx, `Нужна диагностика ${page.shortTitle}?`),
+    cta(ctx),
     seoText(page)
   ].join('');
 }
