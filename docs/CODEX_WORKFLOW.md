@@ -56,4 +56,4 @@ Work in small complete stages. Update the state and session log after a stage. R
 
 Use the existing repository, not a new repository or a ZIP copy. Select a branch deliberately: `main` for baseline work, the recorded PR branch to continue unfinished work. No new API key, paid service, database or ecommerce backend is required for the current site build.
 
-Documentation reference: [OpenAI — Projects and chats](https://learn.chatgpt.com/docs/projects). Keep durable project guidance in AGENTS.md and versioned documents; each chat still has its own transcript. This repository handoff does not claim to have imported old chats or created an account-side Codex environment.
+Documentation reference: [OpenAI — Projects and chats](https://learn.chatgpt.com/docs/projects). Keep durable project guidance in AGENTS.md and versioned documents; each chat still has its own transcript. Old chats were not imported. The separately verified Codex Cloud environment and first task are recorded in START_HERE.md and CURRENT_STATE.md.
