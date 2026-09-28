@@ -1,130 +1,43 @@
-# Две Коробки — production pipeline
+# Две Коробки
 
-Готовый нулезависимый static-site pipeline для 22 страниц сайта:
+Существующий сайт сервиса DSG / S-Tronic / PowerShift / DCT и двухмассовых маховиков. **Начало работы и память проекта: [START_HERE.md](START_HERE.md).**
 
-**Figma → content JSON → Codex/GitHub changes → automated QA → GitHub Pages preview**
+## Продолжение в Codex
 
-## Что уже настроено
+Открой этот репозиторий, прочитай `AGENTS.md` и `docs/CURRENT_STATE.md`. Решения из доступных чатов и опыт работы над ASAYA сохранены в документах рядом с кодом. Это не перенос переписок в интерфейс Codex; рабочий контекст доступен даже в новом чате.
 
-- 22 production routes from Figma handoff V4.
-- Desktop and mobile Figma node mapping.
-- Shared header, footer, CTA, FAQ, cards and service templates.
-- Single source of truth for contacts, prices, warranty and form configuration.
-- Static build without third-party runtime dependencies.
-- Sitemap, robots.txt, canonical URLs, Open Graph and LocalBusiness schema.
-- Automated validation and QA.
-- GitHub Actions preview deployment.
-- Codex instructions in `AGENTS.md`.
-- Image and licence manifest.
+- Репозиторий: [nesterovkolya1337-source/dve-korobki-site](https://github.com/nesterovkolya1337-source/dve-korobki-site).
+- Настроенный адрес сайта: [GitHub Pages](https://nesterovkolya1337-source.github.io/dve-korobki-site/).
+- Фотоэтап: [PR #1](https://github.com/nesterovkolya1337-source/dve-korobki-site/pull/1); статус сверять перед продолжением.
+- Дизайн: [Figma](https://www.figma.com/design/I3VjCQVEO11bDEw2Gf4HOd/Untitled), точные кадры в `docs/FIGMA_HANDOFF.md`.
 
-## Local commands
+## Запуск
 
-Node.js 20+ is required.
+Нужен Node.js 20+; GitHub CI использует Node.js 22. Внешних runtime-зависимостей нет.
 
 ```bash
 npm run check
 npm run dev
 ```
 
-Local preview:
+Открыть `http://localhost:4321`. Отдельные команды: `npm run validate`, `npm run build`, `npm run qa`, `npm run preview`.
 
-```text
-http://localhost:4321
-```
+## Структура
 
-## One-time GitHub publication
+| Путь | Содержимое |
+|---|---|
+| `content/` | Бизнес-данные, 22 страницы, навигация |
+| `src/lib/` | Общие шаблоны, HTML helpers и SVG-иконки |
+| `src/styles/` | Общие стили и адаптив |
+| `src/scripts/` | Меню и клиентское поведение формы |
+| `public/` | Логотипы, изображения, статические файлы |
+| `scripts/` | Генератор, валидация, QA, локальный сервер |
+| `docs/` | Контекст, история, статус, backlog и карта дизайна |
+| `.github/workflows/pages.yml` | Проверки PR и публикация main |
+| `dist/` | Результат сборки; не редактировать вручную |
 
-The connected GitHub account is:
+## Публикация и состояние
 
-```text
-nesterovkolya1337-source
-```
+Push в `main` запускает GitHub Actions с публикацией на GitHub Pages. PR выполняет QA и создаёт скачиваемый build artifact; это не отдельный опубликованный preview URL. Изменения в открытом PR не следует описывать как уже работающие на сайте.
 
-and currently has no repositories. The ChatGPT GitHub connector in this session can read repositories but cannot create or push one, so one authenticated action is required on your computer.
-
-### Fastest option: GitHub CLI
-
-1. Extract the archive.
-2. Open PowerShell in the project folder.
-3. Run:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\PUBLISH_TO_GITHUB.ps1
-```
-
-The script:
-
-- checks GitHub authentication;
-- creates `nesterovkolya1337-source/dve-korobki-site`;
-- pushes the committed project;
-- tries to enable GitHub Pages with GitHub Actions;
-- prints the preview URL.
-
-### GitHub Desktop option
-
-1. Extract the archive.
-2. GitHub Desktop → **File → Add local repository**.
-3. Select the extracted folder.
-4. Click **Publish repository**.
-5. Repository name: `dve-korobki-site`.
-6. Make it public if using GitHub Pages on a free GitHub account.
-7. In GitHub: **Settings → Pages → Source → GitHub Actions**.
-
-Expected preview:
-
-```text
-https://nesterovkolya1337-source.github.io/dve-korobki-site/
-```
-
-GitHub Pages can deploy static build artifacts through a custom Actions workflow. The included workflow builds on pull requests and deploys the `main` branch.
-
-## How work continues from ChatGPT/Codex
-
-After the repository exists, give the repository URL in this project chat. Then tasks can be issued as:
-
-```text
-Implement the approved compact logo across all headers and footers.
-Use AGENTS.md and the exact Figma handoff. Run npm run check.
-```
-
-```text
-Replace the DQ200 hero placeholder with the approved image.
-Update the asset manifest and verify desktop/mobile.
-```
-
-```text
-Compare /remont-dsg-dq250/ with its Figma desktop and mobile frames.
-Fix discrepancies and open a pull request.
-```
-
-## Content that must be confirmed before launch
-
-Edit `content/business.json`:
-
-- exact Saint Petersburg address;
-- exact Moscow address;
-- whether one phone serves both cities;
-- WhatsApp and Telegram;
-- form endpoint;
-- warranty wording;
-- real price ranges;
-- legal entity and privacy policy data;
-- analytics IDs.
-
-## Generated output
-
-`dist/` is generated by `npm run build`. Never edit it manually.
-
-## Structure
-
-```text
-content/              business and route data
-src/lib/              shared renderer/components
-src/styles/           design system CSS
-src/scripts/          browser behavior
-scripts/              build, validation, QA and preview server
-public/               logos, photos and static assets
-docs/                 Figma handoff, routes, QA, assets and Codex workflow
-.github/workflows/    CI and GitHub Pages deployment
-AGENTS.md              Codex project rules
-```
+Актуальная точка продолжения, известные ограничения и данные перед запуском — в [CURRENT_STATE](docs/CURRENT_STATE.md). Порядок работы и действующие ограничения — в [CODEX_WORKFLOW](docs/CODEX_WORKFLOW.md). Старые PowerShell/ZIP-пакеты остаются историческим способом передачи; обычный путь — существующий GitHub-репозиторий.
