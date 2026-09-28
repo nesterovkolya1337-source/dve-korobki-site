@@ -1,9 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { intakeBlockers, intakeEnabled } from '../src/lib/intake.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const business = JSON.parse(await readFile(resolve(root, 'content/business.json'), 'utf8'));
+business.formEndpoint = process.env.FORM_ENDPOINT || business.formEndpoint || '';
 const pages = JSON.parse(await readFile(resolve(root, 'content/pages.json'), 'utf8'));
 
 const errors = [];
@@ -35,7 +37,15 @@ if (!business.phoneHref || !business.phoneDisplay) errors.push('Business phone i
 for (const [city, address] of Object.entries(business.addresses || {})) {
   if (/требуется подтвердить/i.test(address)) warnings.push(`${city}: address is not confirmed`);
 }
-if (!business.formEndpoint) warnings.push('Lead form endpoint is not configured');
+errors.push(...intakeBlockers(business));
+if (!intakeEnabled(business)) warnings.push('Online collection is disabled; telephone booking remains available');
+if (!business.legal?.confirmed) warnings.push('Operator details and personal data documents are not confirmed');
+if (intakeEnabled(business)) {
+  for (const path of [business.legal.privacyPolicyPath, business.legal.consentPath]) {
+    try { await readFile(resolve(root, 'public', path.slice(1)), 'utf8'); }
+    catch { errors.push(`Missing approved legal document: ${path}`); }
+  }
+}
 if (!business.warranty?.confirmed) warnings.push('Warranty wording is not legally confirmed');
 
 if (errors.length) {

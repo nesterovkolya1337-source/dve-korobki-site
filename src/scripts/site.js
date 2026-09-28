@@ -72,13 +72,14 @@
       };
 
       if (!endpoint) {
-        const message = 'Preview: форма собрана, но endpoint ещё не подключён.';
+        const message = 'Онлайн-запись временно недоступна. Позвоните нам.';
         setStatus(message, 'error');
         showToast(message);
         return;
       }
 
-      if (source) source.value = window.location.href;
+      if (form.getAttribute('aria-busy') === 'true' || !form.reportValidity()) return;
+      if (source) source.value = window.location.origin + window.location.pathname;
       if (button) button.disabled = true;
       if (button) button.textContent = 'Отправляем…';
       form.setAttribute('aria-busy', 'true');
@@ -95,7 +96,7 @@
           signal: controller.signal
         });
         const payload = await response.json().catch(() => null);
-        if (!response.ok || payload?.success === false) {
+        if (!response.ok || payload?.success !== true) {
           throw new Error(payload?.message || `HTTP ${response.status}`);
         }
         form.reset();

@@ -10,6 +10,7 @@
 - [История решений из найденных чатов](docs/CHAT_HISTORY.md).
 - [Опыт ASAYA, применимый здесь](docs/ASAYA_LESSONS.md).
 - [Рабочий процесс и публикация](docs/CODEX_WORKFLOW.md).
+- [Требования РФ, обработка заявок и данные для запуска](docs/RF_READINESS.md).
 - [Журнал завершённых этапов](docs/SESSION_LOG.md).
 - [22 маршрута и Figma-кадры](docs/FIGMA_HANDOFF.md), [материалы](docs/ASSETS_MANIFEST.md).
 

@@ -3,6 +3,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { renderDocument } from '../src/lib/render.mjs';
+import { intakeBlockers, intakeEnabled } from '../src/lib/intake.mjs';
 import { routeToOutput, normalizeBase, joinUrl } from '../src/lib/html.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -30,6 +31,14 @@ const business = {
   ...businessFile,
   formEndpoint: process.env.FORM_ENDPOINT || businessFile.formEndpoint || ''
 };
+const intakeErrors = intakeBlockers(business);
+if (intakeErrors.length) throw new Error(intakeErrors.join('\n'));
+if (intakeEnabled(business)) {
+  for (const path of [business.legal.privacyPolicyPath, business.legal.consentPath]) {
+    // Paths have already been restricted to public/legal/*.html by intakeBlockers.
+    await readFile(join(root, 'public', path.slice(1)), 'utf8');
+  }
+}
 
 const asset = (path) => {
   if (/^(https?:|data:|mailto:|tel:)/.test(path)) return path;
@@ -85,6 +94,7 @@ const manifest = {
   routeCount: pages.length,
   siteUrl,
   base,
+  intakeEnabled: intakeEnabled(business),
   routes: report
 };
 await writeFile(join(dist, 'build-manifest.json'), JSON.stringify(manifest, null, 2), 'utf8');
