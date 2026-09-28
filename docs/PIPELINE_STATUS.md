@@ -1,24 +1,9 @@
-# Pipeline status
+# Статус конвейера
 
-- Figma connection: active.
-- Figma production routes mapped: 22.
-- GitHub connection: active.
-- GitHub account: `nesterovkolya1337-source`.
-- Repository: `nesterovkolya1337-source/dve-korobki-site`.
-- Main branch publishing: active.
-- Static build: passed.
-- Automated QA: passed.
-- GitHub Pages workflow: included.
-- Lead form delivery: connected to the dedicated mailbox and activated.
-- Preview: `https://nesterovkolya1337-source.github.io/dve-korobki-site/`.
+Обновлено 28.09.2026. Актуальная точка продолжения — [CURRENT_STATE.md](CURRENT_STATE.md), рабочий процесс — [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md).
 
-## Deferred until service launch
+Подтверждено исходниками: 22 маршрута, статическая сборка Node.js, GitHub Actions, публикация push в main на Pages, PR-проверки, форма с endpoint в `content/business.json`.
 
-1. Exact addresses for Saint Petersburg and Moscow.
-2. Confirmed operator details: ownership form, full name/legal name, tax ID and registration city.
-3. Privacy and personal-data documents, including the form consent link.
-4. Legally approved warranty wording.
-5. Confirmed price ranges.
-6. WhatsApp, Telegram and analytics identifiers.
-7. Production domain and domain mailbox.
-8. Technically verified transmission and workshop photography.
+Ранее этот файл утверждал, что Figma доступна и почтовая доставка активирована. Эти утверждения не являются результатом проверки 28.09: инструмент Figma не вернул макет, реальная заявка не отправлялась. Не считать соединение, endpoint или галочку в стороннем сервисе доказательством работоспособности полного пути.
+
+Перед полноценным запуском остаются адреса обеих точек, реквизиты оператора, документы и ссылка согласия, подтверждённая гарантия/цены, каналы связи и аналитика. Фото подготовлены отдельным PR, их публикация не завершена. Подробности и следующий шаг находятся в CURRENT_STATE, чтобы статусы не расходились между документами.

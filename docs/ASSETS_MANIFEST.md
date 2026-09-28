@@ -2,7 +2,7 @@
 
 | Asset | Status | Usage | Rights / note |
 |---|---|---|---|
-| `public/images/hero-home.webp` | Preview approved | Home desktop hero | AI-generated project image; do not identify as a specific gearbox |
+| `public/images/hero-home.webp` | Historical asset; not approved for the current homepage | Not used by the current home hero | AI-generated image from an earlier iteration. The owner requested real gearbox photography on 29.07; do not restore this as a technical product photo. Current home identity uses `hero-brand-emblem.webp`. |
 | `public/images/hero-dq200-placeholder.svg` | Placeholder | DQ200 | Replace with technically confirmed DQ200 image |
 | `public/brand/logo-detailed-compact.webp` | Approved preview | Header | Detailed compact brand lockup adapted from the owner-approved logo concept |
 | `public/brand/logo-detailed-compact-dark.webp` | Approved preview | Footer/dark surfaces | Inverse detailed brand lockup |
