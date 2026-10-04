@@ -22,3 +22,16 @@ Examples:
 - `mechatronic-card-solenoids.webp`
 - `icon-diagnostics.svg`
 - `logo-compact-white.svg`
+
+## Owner photographs — 2026-09-28
+
+The owner explicitly requested use of the supplied photographs and confirmed the workshop photographs show the team's previous service location. Public gallery heading: «Из практики нашей команды». No claim that the photographs show a current branch, a specific customer case or a verified gearbox model.
+
+| Website asset | Supplied original | Placement | Treatment |
+|---|---|---|---|
+| `public/images/team/gearbox-measurement.jpg` | `IMG_7231.jpeg` | Home gallery, diagnostics hero | Original bytes; CSS framing around gauge, hands and transmission |
+| `public/images/team/double-clutch.jpg` | `IMG_7242.jpeg` | Home gallery, clutch service hero | Original bytes; square presentation without naming an unverified model |
+| `public/images/team/workshop.jpg` | `IMG_7251.jpeg` | Home gallery, about page | Original bytes; original 1280:577 photographic ratio |
+| `public/images/team/mechatronic.jpg` | `IMG_7255.jpeg` | Home gallery, mechatronic service hero | Original screenshot; fixed CSS viewport y=418..862 at 592px wide hides phone UI, retains photographic source area and watermark |
+
+No image generation or mechanical-detail retouching. Model-specific gearbox pages retain their existing visuals pending model-confirmed source images. The small Instagram ranking graphics are not used as technical identification evidence. Existing approved homepage brand hero is preserved. Photo definitions and placements live in `src/lib/photos.mjs`.

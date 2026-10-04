@@ -22,19 +22,53 @@ for (const item of manifest.routes) {
     ['schema', html.includes('application/ld+json')],
     ['header', html.includes('site-header')],
     ['footer', html.includes('site-footer')],
-    ['lead form', html.includes('data-lead-form')],
-    ['form endpoint', html.includes('https://formsubmit.co/ajax/')],
-    ['form source', html.includes('data-form-source')],
-    ['form honeypot', html.includes('name="_honey"')],
-    ['form consent', /name="Согласие"[^>]*required/.test(html)]
+    ['booking destination', html.includes('id="lead-form"')],
+    ['telephone contact', /href="tel:\+\d+"/.test(html)]
   ];
+  if (manifest.intakeEnabled) {
+    checks.push(
+      ['lead form', html.includes('data-lead-form')],
+      ['form source', html.includes('data-form-source')],
+      ['form honeypot', html.includes('name="_honey"')],
+      ['form consent', /name="Согласие"[^>]*required/.test(html)],
+      ['privacy policy link', /href="[^"]+">политика обработки персональных данных<\/a>/.test(html)],
+      ['separate consent link', /href="[^"]+">согласие на обработку персональных данных<\/a>/.test(html)],
+      ['consent version', html.includes('name="consent_version"')]
+    );
+  } else {
+    checks.push(
+      ['telephone booking fallback', html.includes('data-phone-booking')],
+      ['no collection form while disabled', !/<form\b|data-lead-form|formsubmit\.co/i.test(html)],
+      ['no personal data inputs while disabled', !/<input\b[^>]*name="(?:name|phone)"/.test(html)]
+    );
+  }
+  if (/в макете|endpoint|Preview:|SERVICE\.\d/i.test(html)) errors.push(`${item.route}: developer wording in public content`);
   for (const [name, ok] of checks) {
     if (!ok) errors.push(`${item.route}: missing ${name}`);
   }
   if (html.includes('undefined')) errors.push(`${item.route}: contains "undefined"`);
   if (html.includes('TODO')) warnings.push(`${item.route}: contains TODO`);
-  if (item.type === 'service' && !html.includes('service-hero-visual')) {
-    errors.push(`${item.route}: missing branded service hero visual`);
+  if (item.type === 'service' && !html.includes('service-hero-visual') && !html.includes('real-photo--hero')) {
+    errors.push(`${item.route}: missing service hero visual`);
+  }
+  for (const match of html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) {
+    const src = match[1];
+    if (/^(?:https?:|data:)/.test(src)) continue;
+    let assetPath = src.split('?')[0];
+    if (manifest.base && assetPath.startsWith(`${manifest.base}/`)) assetPath = assetPath.slice(manifest.base.length);
+    try { await stat(join(dist, assetPath.replace(/^\/+/, ''))); }
+    catch { errors.push(`${item.route}: missing image ${src}`); }
+  }
+  for (const [, href] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
+    if (/^(?:https?:|mailto:|tel:)/.test(href)) continue;
+    const [target, fragment] = href.split('#');
+    let localPath = target.split('?')[0];
+    if (manifest.base && localPath.startsWith(`${manifest.base}/`)) localPath = localPath.slice(manifest.base.length);
+    const destination = localPath ? join(dist, localPath.replace(/^\/+/, ''), localPath.endsWith('/') ? 'index.html' : '') : file;
+    try {
+      const linked = await readFile(destination, 'utf8');
+      if (fragment && !linked.includes(`id="${fragment}"`)) errors.push(`${item.route}: missing anchor ${href}`);
+    } catch { errors.push(`${item.route}: broken local link ${href}`); }
   }
 }
 
